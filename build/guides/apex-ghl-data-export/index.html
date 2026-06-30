@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exporting Neptune Apex and GHL Controller Data for Analysis</title>
+  <meta name="description" content="Your Apex or GHL already logs temperature and pH every few minutes. Here is how to export that data and combine it with your manual tests for a complete." />
+  <link rel="canonical" href="https://reefdecks.com/guides/apex-ghl-data-export/" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#07101e" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Exporting and Analysing Apex / GHL Controller Data for Your Reef" />
+  <meta property="og:description" content="Your Apex or GHL already logs temperature and pH every few minutes. Here is how to export that data and combine it with your manual tests for a complete." />
+  <meta property="og:url" content="https://reefdecks.com/guides/apex-ghl-data-export/" />
+  <meta property="og:image" content="https://reefdecks.com/assets/hero-reef.jpg" />
+  <meta property="og:site_name" content="ReefDeck" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Exporting and Analysing Apex / GHL Controller Data for Your Reef" />
+  <meta name="twitter:description" content="Your Apex or GHL already logs temperature and pH every few minutes. Here is how to export that data and combine it with your manual tests for a complete." />
+  <meta name="twitter:image" content="https://reefdecks.com/assets/hero-reef.jpg" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="/guides/article.css" />
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Exporting and Analysing Apex / GHL Controller Data",
+      "description": "Your Apex or GHL already logs temperature and pH every few minutes. Here is how to export that data and combine it with your manual tests for a complete.",
+      "image": "https://reefdecks.com/assets/hero-reef.jpg",
+      "author": {
+        "@type": "Organization",
+        "name": "ReefDeck"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ReefDeck",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://reefdecks.com/assets/icons/icon-192.png"
+        }
+      },
+      "datePublished": "2026-06-30",
+      "dateModified": "2026-06-30",
+      "mainEntityOfPage": "https://reefdecks.com/guides/apex-ghl-data-export/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://reefdecks.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://reefdecks.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Apex & GHL Data Export Guide",
+          "item": "https://reefdecks.com/guides/apex-ghl-data-export/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can I export data from a Neptune Apex without an Apex Fusion account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Connect to your Apex's local IP address on your home network (visible in the Fusion app under System > Network) and navigate to the Log section. The CSV download is available there regardless of cloud connectivity, and the file format is identical to the Fusion export."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "My GHL export uses commas as decimal separators \u2014 will that cause errors in a logbook?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GHL ProfiLux units configured for European locales export CSV files with semicolon column separators and decimal commas (e.g. 25,4 rather than 25.4). ReefDeck's CSV import handles this format automatically. If you are using a spreadsheet, open the file with your locale set to match the decimal format, or use the spreadsheet's import wizard to specify the separator manually."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How often should I export controller data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Monthly exports are sufficient for most hobbyists. Apex Fusion stores up to 90 days of data per probe; GHL retention depends on your device storage and cloud sync settings. Export before the oldest data rolls off. If you have a specific concern \u2014 a recent temperature event, a gradual pH decline \u2014 export the relevant window immediately while the data is still available."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "My controller pH probe reads differently from my manual pH test kit \u2014 which should I trust?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Calibrate the probe regularly (at least monthly) using fresh two-point calibration solution and verify against a recently calibrated hobby kit. A freshly calibrated probe with clean solution junction is typically more accurate than a colorimetric kit. However, the probe's continuous trend data is often more useful than the absolute value: a probe that reads 0.1 pH units low will still reveal a genuine trend accurately, provided the offset is consistent."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="site-bar">
+    <a class="brand" href="/"><img src="/assets/icons/icon-192.png" alt="ReefDeck" /> ReefDeck</a>
+    <a class="bar-cta" href="/app/">Open the free logbook</a>
+  </header>
+
+  <div class="wrap">
+    <article>
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a> &rsaquo; <a href="/guides/">Guides</a> &rsaquo; Apex &amp; GHL Data Export Guide
+      </nav>
+
+      <div class="eyebrow">How-to</div>
+      <h1>Exporting and Analysing Apex / GHL Controller Data</h1>
+      <div class="byline">
+        <span>By the ReefDeck team</span><span class="dot"></span>
+        <span>Updated June 2026</span><span class="dot"></span>
+        <span>6 min read</span>
+      </div>
+
+      <figure class="hero">
+        <img src="/guides/apex-ghl-data-export/hero.svg" alt="A Neptune Apex controller module mounted on a reef aquarium sump with probe cables running into the water" loading="eager" />
+        <figcaption>A controller like the Apex logs probe data continuously — the value is in exporting and reading that history alongside your manual records.</figcaption>
+      </figure>
+
+      <div class="quick-answer">
+        <div class="qa-label">⚡ Quick answer</div>
+        <p>Aquarium controllers like the <strong>Neptune Apex</strong> and <strong>GHL ProfiLux</strong> log probe readings — temperature, pH, ORP, conductivity — every one to five minutes, producing thousands of data points per week. Exporting this as a <strong>CSV file</strong> and importing it into a logbook gives you a continuous trend line that no weekly test schedule can match. ReefDeck accepts <strong>Apex and GHL CSV exports</strong>, including EU decimal-comma format, and merges them with your manual parameter entries.</p>
+      </div>
+
+      <p>Hobbyist aquarium controllers were originally sold as automation devices: run a return pump at a set time, switch lighting on a schedule, trigger an alert if temperature climbs too high. That is still what most people use them for. What often goes unappreciated is that a modern Apex or GHL ProfiLux is also a continuous data logger — one that has been quietly recording your tank's temperature, pH and other probe readings every few minutes since the day you installed it. That history is stored, exportable, and genuinely useful if you know where to find it.</p>
+      <h2>What controller probes log and why it matters</h2>
+      <p>The exact probes depend on your configuration, but a typical controller setup captures:</p>
+      <ul><li><strong>Temperature</strong> — usually logged every minute; reveals daily fluctuation, equipment failure events, and summer heat creep far more clearly than spot checks.</li><li><strong>pH</strong> — the most diagnostically rich continuous reading. pH naturally rises through the day as zooxanthellae photosynthesise and CO₂ is consumed, then falls at night. A compressed or inverted pH curve is one of the earliest signs of a CO₂ or alkalinity problem.</li><li><strong>ORP (oxidation-reduction potential)</strong> — a proxy for overall water quality; useful for spotting acute events like a dead animal or a skimmer failure.</li><li><strong>Conductivity / salinity</strong> — on units fitted with a conductivity probe, this tracks salinity drift between water changes and flags a failing ATO.</li></ul>
+      <p>None of these readings is a substitute for a calibrated manual test — pH probes drift, conductivity probes need regular cleaning, and ORP is more useful as a relative trend than an absolute value. But the <em>continuous</em> nature of the data is something no manual test schedule can replicate. You might test alkalinity three times a week; your controller logs temperature 1,440 times a day.</p>
+      <h2>Exporting data from a Neptune Apex</h2>
+      <p>Neptune Apex data is accessible through the Apex Fusion web interface or, for locally networked units, via the Apex's own web page.</p>
+      <ol><li>Log into Apex Fusion at <em>apexfusion.com</em> and select your system.</li><li>Navigate to <strong>Dashboard</strong>, then open the <strong>Graph</strong> view for the probe you want to export.</li><li>Use the date-range selector to choose your export window — up to 90 days is typical per export.</li><li>Click <strong>Export</strong> or <strong>Download CSV</strong> (the exact label depends on your firmware version). The file downloads as a plain comma-separated file with a timestamp column and a value column.</li><li>Repeat for each probe (temperature, pH, ORP) if you want a combined dataset — you will have one CSV per probe.</li></ol>
+      <div class="note">
+        <div class="note-h">Apex firmware and local access</div>
+        On older Apex firmware (pre-2020), the graph export option may be absent from Fusion. In that case, connect directly to your Apex's local IP address (usually shown in Fusion under <em>System &gt; Network</em>), navigate to the <strong>Log</strong> section, and download from there. The CSV format is identical.
+      </div>
+      <h2>Exporting data from a GHL ProfiLux</h2>
+      <p>GHL controllers store data locally on the unit and synchronise with the GHL cloud service. Export options depend on whether you use GHL Connect (the local PC/Mac software) or the cloud dashboard.</p>
+      <ol><li>Open <strong>GHL Connect</strong> (desktop) or log into the <strong>GHL cloud portal</strong> at <em>ghl-aquariumtechnology.com</em>.</li><li>Select your controller and navigate to <strong>Measurements</strong> or <strong>Diagrams</strong> depending on your software version.</li><li>Choose the parameter and date range you want.</li><li>Click <strong>Export</strong>. GHL exports a semicolon-separated CSV file with a date-time column and values in your unit's locale format — this may use a decimal comma (e.g. <em>25,4</em> rather than <em>25.4</em>) on European-locale systems.</li><li>Save the file. If you are using ReefDeck's import, the EU decimal-comma format is handled automatically — no manual conversion needed.</li></ol>
+      <h2>Why controller data alone is not enough</h2>
+      <p>A controller's continuous log is excellent at capturing what happens between your manual tests. What it cannot do is measure the parameters that matter most for coral chemistry: alkalinity, calcium, magnesium, nitrate and phosphate. No reliable, affordable continuous probe exists for these. That means the complete picture of your reef always requires two data streams: the controller's automated probe history for temperature and pH trends, and your manual test log for the chemistry that drives coral growth.</p>
+      <p>When you combine both, you gain the ability to make connections that neither source alone reveals. If your pH trend over three weeks shows a steadily compressed daily swing — the high is dropping and the night low is also dropping — that is a reliable early-warning sign of rising dissolved CO₂, often caused by reduced gas exchange in a sealed room. Spotting it early, before alkalinity destabilises, is only possible because the controller was logging continuously while your weekly chemistry tests gave you no signal yet.</p>
+      <h2>Importing into a logbook and reading the merged trends</h2>
+      <p>The practical value of exporting controller data comes when it sits in the same timeline as your manual test results. In a spreadsheet this requires manual alignment and custom charting. In a purpose-built reef logbook the merge is direct: drop in the controller CSV and your manual entries appear on the same axis.</p>
+      <p>When you review the combined data, look for relationships rather than isolated events. A pH dip coinciding with an alkalinity drop three days later is a pattern that suggests a dosing shortfall — the controller caught the early signal, the chemistry test confirmed it. A temperature spike on a day when you recorded elevated nitrate the following week might point to an overheating event that stressed the tank and shifted bacterial activity. These connections are what make logging worth the effort.</p>
+      <p>ReefDeck imports Apex and GHL CSV exports directly, including EU decimal-comma files, and stores the controller data as timestamped readings alongside your manually entered parameters. You do not need to reformat the file or combine CSVs manually — paste or drop the export and the logbook handles the rest.</p>
+
+      <div class="cta-box">
+        <h3>Import your controller CSV into ReefDeck</h3>
+        <p>ReefDeck&#x27;s CSV import accepts Apex and GHL exports directly — EU decimal-comma format included. Drop in your controller history alongside your manual alkalinity and nutrient tests to get the complete picture in one place. Free, offline, no account needed.</p>
+        <a class="cta-btn" href="/app/">Open ReefDeck — it's free →</a>
+        <span class="cta-sub">Works on phone and desktop · installs as an app · exports to CSV anytime</span>
+      </div>
+
+      <section class="faq" aria-label="Frequently asked questions">
+        <h2>Frequently asked questions</h2>
+        <details>
+          <summary>Can I export data from a Neptune Apex without an Apex Fusion account?</summary>
+          <p>Yes. Connect to your Apex's local IP address on your home network (visible in the Fusion app under System > Network) and navigate to the Log section. The CSV download is available there regardless of cloud connectivity, and the file format is identical to the Fusion export.</p>
+        </details>
+        <details>
+          <summary>My GHL export uses commas as decimal separators — will that cause errors in a logbook?</summary>
+          <p>GHL ProfiLux units configured for European locales export CSV files with semicolon column separators and decimal commas (e.g. 25,4 rather than 25.4). ReefDeck's CSV import handles this format automatically. If you are using a spreadsheet, open the file with your locale set to match the decimal format, or use the spreadsheet's import wizard to specify the separator manually.</p>
+        </details>
+        <details>
+          <summary>How often should I export controller data?</summary>
+          <p>Monthly exports are sufficient for most hobbyists. Apex Fusion stores up to 90 days of data per probe; GHL retention depends on your device storage and cloud sync settings. Export before the oldest data rolls off. If you have a specific concern — a recent temperature event, a gradual pH decline — export the relevant window immediately while the data is still available.</p>
+        </details>
+        <details>
+          <summary>My controller pH probe reads differently from my manual pH test kit — which should I trust?</summary>
+          <p>Calibrate the probe regularly (at least monthly) using fresh two-point calibration solution and verify against a recently calibrated hobby kit. A freshly calibrated probe with clean solution junction is typically more accurate than a colorimetric kit. However, the probe's continuous trend data is often more useful than the absolute value: a probe that reads 0.1 pH units low will still reveal a genuine trend accurately, provided the offset is consistent.</p>
+        </details>
+      </section>
+
+      <section class="related">
+        <h2>Keep reading</h2>
+        <div class="related-grid">
+          <a href="/guides/reading-reef-parameter-trends/">Reading Reef Parameter Trends</a>
+          <a href="/guides/reef-parameter-log-spreadsheet-vs-app/">Spreadsheet vs App for Reef Logging</a>
+          <a href="/guides/ideal-reef-tank-parameters/">Ideal Reef Tank Water Parameters</a>
+          <a href="/guides/reef-tank-temperature-stability/">Reef Tank Temperature Stability</a>
+        </div>
+      </section>
+    </article>
+  </div>
+
+  <footer class="site-foot">
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/guides/">All guides</a>
+      <a href="/app/">Free logbook</a>
+      <a href="/legal/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="disclaimer">ReefDeck guides are general educational information for reef-keeping hobbyists, not veterinary or professional advice. Target ranges vary with stock and system; always cross-check against your own livestock and trusted reef references. ReefDeck the app records and displays your own data — it does not diagnose or prescribe.</p>
+  </footer>
+</body>
+</html>

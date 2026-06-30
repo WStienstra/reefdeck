@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Read ICP-OES Reef Tank Test Results (2026)</title>
+  <meta name="description" content="ICP-OES reports 30–70 elements at once. This guide shows you how to read the report, spot what matters, and avoid chasing every number." />
+  <link rel="canonical" href="https://reefdecks.com/guides/understanding-icp-test-results/" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#07101e" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="How to Read ICP-OES Test Results for Your Reef Tank" />
+  <meta property="og:description" content="ICP-OES reports 30–70 elements at once. This guide shows you how to read the report, spot what matters, and avoid chasing every number." />
+  <meta property="og:url" content="https://reefdecks.com/guides/understanding-icp-test-results/" />
+  <meta property="og:image" content="https://reefdecks.com/assets/hero-reef.jpg" />
+  <meta property="og:site_name" content="ReefDeck" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How to Read ICP-OES Test Results for Your Reef Tank" />
+  <meta name="twitter:description" content="ICP-OES reports 30–70 elements at once. This guide shows you how to read the report, spot what matters, and avoid chasing every number." />
+  <meta name="twitter:image" content="https://reefdecks.com/assets/hero-reef.jpg" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="/guides/article.css" />
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "How to Read ICP-OES Test Results for Your Reef Tank",
+      "description": "ICP-OES reports 30\u201370 elements at once. This guide shows you how to read the report, spot what matters, and avoid chasing every number.",
+      "image": "https://reefdecks.com/assets/hero-reef.jpg",
+      "author": {
+        "@type": "Organization",
+        "name": "ReefDeck"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ReefDeck",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://reefdecks.com/assets/icons/icon-192.png"
+        }
+      },
+      "datePublished": "2026-06-30",
+      "dateModified": "2026-06-30",
+      "mainEntityOfPage": "https://reefdecks.com/guides/understanding-icp-test-results/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://reefdecks.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://reefdecks.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Understanding ICP-OES Test Results",
+          "item": "https://reefdecks.com/guides/understanding-icp-test-results/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How often should I run an ICP test on my reef tank?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Once or twice a year is sufficient for most tanks \u2014 one baseline test and one follow-up after any major change such as switching salt brands, changing your dosing method, or adding significant new livestock. Between ICP tests, regular hobby kit readings provide the trend data you actually need day to day."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What should I do first when I get an ICP report?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Check the contaminant row first \u2014 copper, aluminium, chromium, nickel and lead. Any elevation there should be investigated and resolved before you act on anything else. Then check your major elements (calcium, magnesium, potassium) against the salinity-adjusted references, and lastly review trace elements in the context of your corals' actual appearance."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "My ICP shows several trace elements slightly outside range \u2014 do I need to dose them all?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not necessarily. Minor trace deviations are common and many healthy tanks show values slightly outside lab reference ranges without any visible coral stress. Focus on elements that are significantly depleted, prioritise an all-in-one trace supplement over individual dosing, and only act if you see a biological symptom (colour loss, growth stall) that suggests a real deficiency."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I paste my Triton or ATI ICP results into ReefDeck?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. ReefDeck accepts ICP results from Triton and ATI by direct paste, storing them as dated log entries alongside your manual tests. This lets you compare the ICP snapshot to the trends your hobby kit was already showing in the weeks before and after the sample date."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="site-bar">
+    <a class="brand" href="/"><img src="/assets/icons/icon-192.png" alt="ReefDeck" /> ReefDeck</a>
+    <a class="bar-cta" href="/app/">Open the free logbook</a>
+  </header>
+
+  <div class="wrap">
+    <article>
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a> &rsaquo; <a href="/guides/">Guides</a> &rsaquo; Understanding ICP-OES Test Results
+      </nav>
+
+      <div class="eyebrow">Guide</div>
+      <h1>How to Read ICP-OES Test Results for Your Reef Tank</h1>
+      <div class="byline">
+        <span>By the ReefDeck team</span><span class="dot"></span>
+        <span>Updated June 2026</span><span class="dot"></span>
+        <span>8 min read</span>
+      </div>
+
+      <figure class="hero">
+        <img src="/guides/understanding-icp-test-results/hero.svg" alt="A printed ICP-OES reef water test report next to a dropper bottle and coral frag on a white surface" loading="eager" />
+        <figcaption>An ICP report gives you a snapshot of everything in your water — the skill is knowing which numbers to act on.</figcaption>
+      </figure>
+
+      <div class="quick-answer">
+        <div class="qa-label">⚡ Quick answer</div>
+        <p><strong>ICP-OES (Inductively Coupled Plasma Optical Emission Spectrometry)</strong> analyses 30–70 elements in a single water sample, covering major parameters, trace elements and potential contaminants. To use the report well: confirm your <strong>major elements</strong> (calcium, magnesium, potassium) first, then look for <strong>contaminant flags</strong> (copper, aluminium, chromium), and treat trace deviations cautiously — most healthy tanks show minor traces outside reference ranges without any visible coral stress. Retest after any corrective action, not before.</p>
+      </div>
+
+      <p>Once or twice a year, many reef keepers send a water sample to an ICP-OES laboratory. A few days later a report lands in their inbox: forty or more elements, colour-coded flags, and a handful of alarming-looking numbers. The most common response is panic. The second most common is to dose half a dozen supplements without a clear plan. Neither is necessary if you know how to read what the report is actually telling you.</p>
+      <h2>What ICP-OES actually measures</h2>
+      <p>ICP-OES works by atomising a small water sample inside a plasma torch and measuring the wavelength and intensity of light emitted by each element. The result is a concentration figure — typically in parts per million (ppm) or parts per billion (ppb) — for every element the lab tests for. Commercial reef-water services such as Triton and ATI typically screen for 30 to 70 elements in a single submission.</p>
+      <p>These fall into four practical groups:</p>
+      <ul><li><strong>Major elements</strong> — calcium (Ca), magnesium (Mg), potassium (K), sodium (Na), sulphur (S). These are present in large quantities and drive your core water chemistry.</li><li><strong>Minor elements</strong> — strontium (Sr), boron (B), lithium (Li). Present at lower concentrations, consumed by corals, relevant to track but rarely urgent.</li><li><strong>Trace elements</strong> — iodine (I), iron (Fe), zinc (Zn), manganese (Mn), molybdenum (Mo), vanadium (V) and others. Present in µg/L (ppb) ranges. Important for coral biology; dangerous if overdosed.</li><li><strong>Contaminants</strong> — copper (Cu), aluminium (Al), chromium (Cr), nickel (Ni), lead (Pb). These should read near zero. Even low elevations can stress or kill invertebrates.</li></ul>
+      <h2>Reading a report: where to start</h2>
+      <p>Open the report and work through it in order of consequence, not alphabetical order. The goal of a first pass is to answer three questions: is anything dangerous, is my water chemistry coherent, and are there gaps I should fill?</p>
+      <div class="table-scroll">
+        <table class="params"><thead><tr><th>Element group</th><th>Check first</th><th>Action threshold</th></tr></thead><tbody><tr><td>Contaminants (Cu, Al, Cr, Ni, Pb)</td><td>Any elevation above lab reference</td><td>Investigate source immediately; remove if possible</td></tr><tr><td>Major elements (Ca, Mg, K)</td><td>Values relative to salinity-adjusted reference</td><td>Correct if >10–15% outside target range</td></tr><tr><td>Minor elements (Sr, B)</td><td>Significant depletion or spike</td><td>Dose only if notably low after ruling out test error</td></tr><tr><td>Trace elements (I, Fe, Mn, Mo, V, Zn)</td><td>Pattern of depletion across multiple elements</td><td>Prefer all-in-one supplement over individual dosing</td></tr><tr><td>Sodium / salinity cross-check</td><td>Confirm Na matches your measured salinity</td><td>Large mismatch suggests sampling or calibration error</td></tr></tbody></table>
+      </div>
+      <h2>The contaminant check: the one thing you cannot ignore</h2>
+      <p>Before looking at anything else, scan the contaminant row. Copper is the most common offender — it can leach from brass fittings, certain pump housings, or even some additives. At concentrations above roughly 0.05 ppm copper will begin stressing invertebrates; at 0.1–0.2 ppm it can kill snails, shrimp and eventually corals. If copper is elevated, identify and remove the source. Activated carbon or a copper-removing resin can help, but source removal comes first.</p>
+      <p>Aluminium can enter from certain salt mixes or dry additives. Chromium and nickel occasionally appear when metal reactor media or equipment corrodes. If any of these flags are high, prioritise them entirely before thinking about trace-element supplementation.</p>
+      <h2>Comparing ICP results to hobby test kits</h2>
+      <p>Many hobbyists test calcium and alkalinity weekly with reagent kits (Salifert, Hanna, Red Sea, and similar) and only run ICP once or twice a year. The two methods complement each other well — and the comparison is genuinely useful.</p>
+      <div class="note">
+        <div class="note-h">Kit vs ICP: what to do when they disagree</div>
+        If your hobby kit reads calcium at 420 ppm but the ICP returns 390 ppm, the discrepancy is usually kit reagent age, technique, or calibration drift — <em>not</em> a reason to immediately raise your dosing. Re-test your kit with a reference solution, check the ICP's sodium value against your known salinity, and see whether both correct toward each other. Only once you trust both readings should you adjust your chemistry. A difference of 20–30 ppm is within the combined uncertainty of most hobby kits.
+      </div>
+      <p>For parameters that hobby kits do not measure — potassium, strontium, iodine, and the trace metals — the ICP is your only practical data point. Use those values to guide supplementation, but note that trace-element reference ranges vary somewhat between labs. A mild deviation in a tank with healthy, colourful corals is rarely worth acting on.</p>
+      <h2>Retest cadence and what to do between tests</h2>
+      <p>ICP is a snapshot, not a real-time monitor. Most hobbyists run one to four tests per year: once at baseline, once after any major change (new salt, dosing method, large livestock addition), and once or twice for general peace of mind. Between ICP tests, your weekly hobby kit readings are the primary source of trend data — and trends are what actually protect your tank.</p>
+      <p>After any corrective action — whether you removed a copper source, adjusted potassium, or began a trace-element supplement — wait at least four to six weeks before retesting. Give the water time to stabilise and your corals time to respond, rather than running successive ICP tests to validate every change. Logging your manual test results in the weeks between ICP submissions is where the picture comes together: if you can see your calcium and alkalinity trend data alongside the ICP snapshot dates, you can tell whether a measured correction actually held.</p>
+      <h2>What ICP cannot tell you</h2>
+      <p>ICP-OES measures inorganic element concentrations. It does not measure organic compounds, bacteria, dissolved oxygen, or the complex biological interactions in your tank. It will not tell you why your acropora is RTNing, why your tank cycles slowly, or whether your skimmer is right-sized. It is one data point — an exceptionally detailed one — but it sits alongside, not above, your daily observations and your ongoing parameter log.</p>
+
+      <div class="cta-box">
+        <h3>Log your ICP results alongside your manual tests</h3>
+        <p>ReefDeck lets you paste in Triton or ATI ICP results and track them next to your own test-kit readings — so you can see whether a trend was already visible before the ICP arrived. Free, offline, no account needed.</p>
+        <a class="cta-btn" href="/app/">Open ReefDeck — it's free →</a>
+        <span class="cta-sub">Works on phone and desktop · installs as an app · exports to CSV anytime</span>
+      </div>
+
+      <section class="faq" aria-label="Frequently asked questions">
+        <h2>Frequently asked questions</h2>
+        <details>
+          <summary>How often should I run an ICP test on my reef tank?</summary>
+          <p>Once or twice a year is sufficient for most tanks — one baseline test and one follow-up after any major change such as switching salt brands, changing your dosing method, or adding significant new livestock. Between ICP tests, regular hobby kit readings provide the trend data you actually need day to day.</p>
+        </details>
+        <details>
+          <summary>What should I do first when I get an ICP report?</summary>
+          <p>Check the contaminant row first — copper, aluminium, chromium, nickel and lead. Any elevation there should be investigated and resolved before you act on anything else. Then check your major elements (calcium, magnesium, potassium) against the salinity-adjusted references, and lastly review trace elements in the context of your corals' actual appearance.</p>
+        </details>
+        <details>
+          <summary>My ICP shows several trace elements slightly outside range — do I need to dose them all?</summary>
+          <p>Not necessarily. Minor trace deviations are common and many healthy tanks show values slightly outside lab reference ranges without any visible coral stress. Focus on elements that are significantly depleted, prioritise an all-in-one trace supplement over individual dosing, and only act if you see a biological symptom (colour loss, growth stall) that suggests a real deficiency.</p>
+        </details>
+        <details>
+          <summary>Can I paste my Triton or ATI ICP results into ReefDeck?</summary>
+          <p>Yes. ReefDeck accepts ICP results from Triton and ATI by direct paste, storing them as dated log entries alongside your manual tests. This lets you compare the ICP snapshot to the trends your hobby kit was already showing in the weeks before and after the sample date.</p>
+        </details>
+      </section>
+
+      <section class="related">
+        <h2>Keep reading</h2>
+        <div class="related-grid">
+          <a href="/guides/trace-elements-reef/">Trace Elements in Reef Tanks</a>
+          <a href="/guides/ideal-reef-tank-parameters/">Ideal Reef Tank Water Parameters</a>
+          <a href="/guides/why-corals-lose-color/">Why Corals Lose Their Colour</a>
+          <a href="/guides/reading-reef-parameter-trends/">Reading Reef Parameter Trends</a>
+        </div>
+      </section>
+    </article>
+  </div>
+
+  <footer class="site-foot">
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/guides/">All guides</a>
+      <a href="/app/">Free logbook</a>
+      <a href="/legal/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="disclaimer">ReefDeck guides are general educational information for reef-keeping hobbyists, not veterinary or professional advice. Target ranges vary with stock and system; always cross-check against your own livestock and trusted reef references. ReefDeck the app records and displays your own data — it does not diagnose or prescribe.</p>
+  </footer>
+</body>
+</html>

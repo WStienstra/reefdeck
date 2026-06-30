@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reef Tank Temperature: Why Stability Beats the Perfect Number</title>
+  <meta name="description" content="Why any point in the 24–27 °C band is fine, swings are not, and how to detect drift early with logging." />
+  <link rel="canonical" href="https://reefdecks.com/guides/reef-tank-temperature-stability/" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#07101e" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Reef Tank Temperature: Why Stability Beats the Perfect Number" />
+  <meta property="og:description" content="Why any point in the 24–27 °C band is fine, swings are not, and how to detect drift early with logging." />
+  <meta property="og:url" content="https://reefdecks.com/guides/reef-tank-temperature-stability/" />
+  <meta property="og:image" content="https://reefdecks.com/assets/hero-reef.jpg" />
+  <meta property="og:site_name" content="ReefDeck" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Reef Tank Temperature: Why Stability Beats the Perfect Number" />
+  <meta name="twitter:description" content="Why any point in the 24–27 °C band is fine, swings are not, and how to detect drift early with logging." />
+  <meta name="twitter:image" content="https://reefdecks.com/assets/hero-reef.jpg" />
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="/guides/article.css" />
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Reef Tank Temperature: Why Stability Beats the Perfect Number",
+      "description": "Why any point in the 24\u201327 \u00b0C band is fine, swings are not, and how to detect drift early with logging.",
+      "image": "https://reefdecks.com/assets/hero-reef.jpg",
+      "author": {
+        "@type": "Organization",
+        "name": "ReefDeck"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ReefDeck",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://reefdecks.com/assets/icons/icon-192.png"
+        }
+      },
+      "datePublished": "2026-06-30",
+      "dateModified": "2026-06-30",
+      "mainEntityOfPage": "https://reefdecks.com/guides/reef-tank-temperature-stability/"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://reefdecks.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://reefdecks.com/guides/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Reef Tank Temperature Stability",
+          "item": "https://reefdecks.com/guides/reef-tank-temperature-stability/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the ideal temperature for a reef tank?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Any stable temperature in the 24\u201327 \u00b0C (75\u201381 \u00b0F) range is suitable for a mixed reef. The exact point within that band matters far less than keeping it consistent \u2014 a tank held at a steady 26 \u00b0C is healthier than one that oscillates between 24 and 28 \u00b0C daily."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why should I use two heaters instead of one?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A single heater is a single point of failure. If it sticks in the on position \u2014 a common failure mode \u2014 it heats the tank continuously until someone notices. Two heaters, each set slightly below your target temperature and sharing the load, mean neither runs at full duty cycle, and a separate controller can cut power to both if temperature overshoots. The cost of a second heater is trivial against the cost of losing a reef to thermal runaway."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When do I need a chiller for my reef tank?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "If your tank regularly climbs above 28 \u00b0C in summer despite a fan over the sump and other passive measures, a chiller is worth the investment. Smaller tanks, rooms without air conditioning, and systems with high-wattage lighting are most vulnerable. A clip-on fan blowing across the sump surface can drop temperature 1\u20132 \u00b0C through evaporative cooling and is the cheapest first step."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much daily temperature swing is acceptable in a reef tank?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A swing of 0.5\u20131 \u00b0C between the coolest point (typically early morning before lights on) and the warmest point (end of the photoperiod) is common and generally harmless. Swings of 2 \u00b0C or more in a single day are worth reducing by improving heater control, managing room temperature or adjusting the lighting schedule."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+  <header class="site-bar">
+    <a class="brand" href="/"><img src="/assets/icons/icon-192.png" alt="ReefDeck" /> ReefDeck</a>
+    <a class="bar-cta" href="/app/">Open the free logbook</a>
+  </header>
+
+  <div class="wrap">
+    <article>
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/">Home</a> &rsaquo; <a href="/guides/">Guides</a> &rsaquo; Reef Tank Temperature Stability
+      </nav>
+
+      <div class="eyebrow">Guide</div>
+      <h1>Reef Tank Temperature: Why Stability Beats the Perfect Number</h1>
+      <div class="byline">
+        <span>By the ReefDeck team</span><span class="dot"></span>
+        <span>Updated June 2026</span><span class="dot"></span>
+        <span>6 min read</span>
+      </div>
+
+      <figure class="hero">
+        <img src="/guides/reef-tank-temperature-stability/hero.svg" alt="A reef aquarium temperature probe and controller display showing a stable reading near 25.5 degrees Celsius" loading="eager" />
+        <figcaption>A controller probe catching a half-degree drift is worth far more than the most accurate thermometer used once a week.</figcaption>
+      </figure>
+
+      <div class="quick-answer">
+        <div class="qa-label">⚡ Quick answer</div>
+        <p>Reef corals tolerate any temperature in the <strong>24–27 °C (75–81 °F)</strong> band, but they are damaged by rapid swings — a tank that climbs 3 °C every afternoon is more stressful than one held at a stable 27 °C. Use <strong>two heaters set slightly below target</strong> rather than one at full load, and consider a <strong>separate controller probe</strong> to guard against a heater sticking on and cooking the tank.</p>
+      </div>
+
+      <p>Of all the parameters reef keepers track, temperature is the one most often treated as background noise — something you glance at and tick off rather than study. That is a mistake. Temperature is not just a comfort parameter; it drives coral metabolism, zooxanthellae density and bleaching thresholds. More practically, it is the parameter most likely to swing or spike without warning when equipment fails, seasons change or the room heats up in summer. A tank that holds 25 °C year-round is far easier to keep than one that climbs to 29 °C every August and drops to 22 °C every February.</p>
+      <h2>The target band: 24–27 °C</h2>
+      <p>The broadly accepted temperature range for a mixed reef is <strong>24–27 °C (75–81 °F)</strong>. Corals grow on tropical reefs across a natural range wider than this, so any stable point within the band is suitable. The hobbyist debate about whether 25 °C or 26 °C is "optimal" is largely beside the point — what matters is that the value you pick stays there.</p>
+      <p>At the upper edge, coral bleaching risk rises. Most SPS corals begin to expel zooxanthellae when they are held above 28–29 °C for extended periods, though the threshold varies by species and how quickly the temperature rose. A sudden jump from 25 to 28 °C is far more stressful than a tank that has been maintained at a stable 27 °C for months. At the low end, coral growth slows noticeably below 23 °C and many fish become sluggish and infection-prone.</p>
+      <h2>What drives daily temperature swings</h2>
+      <p>Understanding the sources of swing is the first step to controlling them. On a typical reef setup several things move temperature during a 24-hour cycle:</p>
+      <ul><li>Lighting: LED fixtures produce less heat than metal halides but still warm the water, particularly in smaller tanks. The display heats during the photoperiod and cools when lights are off.</li><li>Ambient room temperature: a tank in a room that varies between 18 °C at night and 28 °C on a summer afternoon will track that variation unless actively controlled.</li><li>Return pump and powerheads: all submersible pumps add heat. The larger the flow rate and the smaller the system volume, the more pronounced the effect.</li><li>Evaporative cooling: water evaporating from an open sump or display carries heat away, which can be significant on summerless setups and counteracts some pump heat.</li><li>Heaters and chillers: active temperature control imposed on top of all the above.</li></ul>
+      <p>A daily swing of 0.5–1 °C between lights-on and lights-off peak is common and not harmful. Swings of 2 °C or more over a single day are worth reducing. Measuring temperature at the same time each day (rather than whenever you happen to look) can mask this — a glance at midday every day tells you nothing about the overnight low.</p>
+      <h2>Heaters: sizing, placement and redundancy</h2>
+      <p>The standard guidance for heater wattage is roughly 1 W per litre for a tank in a temperate room, though this is a starting point rather than a rule. Larger sumps, high-flow systems, and rooms that get cold in winter may need more. The more important question is how to set up the heaters you do have.</p>
+      <div class="note">
+        <div class="note-h">Use two smaller heaters, not one large one</div>
+        A single heater sized to carry the full load has one point of failure. If it sticks on — a common mode of heater death — the entire heating capacity is applied continuously with nothing to break the circuit. <strong>Two heaters, each set 0.5–1 °C below your target, sharing the load</strong>, means neither is running at full duty cycle and both must fail simultaneously to cause a catastrophic swing. If one fails cold, the other compensates. If one sticks on, it can only drive the tank 0.5–1 °C over target before the second one stops it from going further.
+      </div>
+      <h2>Chillers, fans and summer management</h2>
+      <p>In many temperate climates, keeping a reef tank from overheating in summer is a harder problem than winter heating. Whether you need a chiller depends on your room temperatures, tank volume and lighting setup.</p>
+      <p>A clip-on fan blowing across the sump water surface is the cheapest intervention — evaporative cooling can drop temperature by 1–2 °C at the cost of increased top-off demand. This is often sufficient for tanks that only drift a degree or two above target on warm days. If your tank regularly climbs above 28 °C in summer without intervention, a dedicated aquarium chiller is the reliable solution. Chillers are expensive to purchase and run, but they are the only option that can maintain temperature against a hot room reliably. Alternatives worth trying first: cooling the room with air conditioning, reducing photoperiod duration, raising the light fixture higher above the water, or switching to lighting with lower heat output.</p>
+      <h2>Controllers and probes: catching drift before corals do</h2>
+      <p>A controller wired to a temperature probe provides two things a manual thermometer cannot: <em>continuous monitoring</em> and <em>automated response</em>. When the probe reading crosses a threshold, the controller switches heaters or chillers on and off — removing the built-in thermostat of each individual heater from the equation entirely.</p>
+      <p>The critical risk this guards against is thermal runaway: a heater whose internal thermostat fails in the "on" position. Without an external controller, nothing interrupts the heater and the tank temperature climbs until the heater is noticed or the coral bleaches. With a controller, the external probe trips the outlet off when the setpoint is exceeded, regardless of what the heater's own thermostat is doing. This is arguably the single highest-value function a controller provides on a reef system.</p>
+      <div class="note">
+        <div class="note-h">Set controller high-temp alert well below bleaching threshold</div>
+        If your target is 25.5 °C, consider setting a high-temperature alert at 27 °C and a controller cutoff at 27.5 °C. This gives you time to investigate before the tank reaches a temperature at which coral bleaching becomes likely (typically 28–29 °C, held for hours). Controllers that send email or app alerts are particularly useful here — the tank may be drifting at 3 am with no one watching.
+      </div>
+      <h2>Logging temperature: why a daily record matters</h2>
+      <p>A single temperature reading confirms the tank is not in immediate crisis. A month of daily readings tells a completely different story: it shows whether there is a consistent afternoon spike on warm days, whether the overnight low has been creeping downward as autumn sets in, or whether a new light fixture is running the tank 1 °C warmer than before.</p>
+      <p>Equipment failures rarely announce themselves dramatically. A heater element beginning to degrade will often show up first as unusual variability — temperature that should be stable within 0.2 °C showing half-degree excursions. A log catches this; a daily glance at a display does not. Recording temperature as part of every parameter check and watching it trend over weeks is what separates proactive reef keeping from reactive crisis management.</p>
+
+      <div class="cta-box">
+        <h3>Log temperature daily in ReefDeck</h3>
+        <p>ReefDeck is a free, offline reef logbook. Add a temperature reading to every log entry and the trend graph will reveal seasonal drift, equipment failures and daily swings — all before they cost you corals. No account needed.</p>
+        <a class="cta-btn" href="/app/">Open ReefDeck — it's free →</a>
+        <span class="cta-sub">Works on phone and desktop · installs as an app · exports to CSV anytime</span>
+      </div>
+
+      <section class="faq" aria-label="Frequently asked questions">
+        <h2>Frequently asked questions</h2>
+        <details>
+          <summary>What is the ideal temperature for a reef tank?</summary>
+          <p>Any stable temperature in the 24–27 °C (75–81 °F) range is suitable for a mixed reef. The exact point within that band matters far less than keeping it consistent — a tank held at a steady 26 °C is healthier than one that oscillates between 24 and 28 °C daily.</p>
+        </details>
+        <details>
+          <summary>Why should I use two heaters instead of one?</summary>
+          <p>A single heater is a single point of failure. If it sticks in the on position — a common failure mode — it heats the tank continuously until someone notices. Two heaters, each set slightly below your target temperature and sharing the load, mean neither runs at full duty cycle, and a separate controller can cut power to both if temperature overshoots. The cost of a second heater is trivial against the cost of losing a reef to thermal runaway.</p>
+        </details>
+        <details>
+          <summary>When do I need a chiller for my reef tank?</summary>
+          <p>If your tank regularly climbs above 28 °C in summer despite a fan over the sump and other passive measures, a chiller is worth the investment. Smaller tanks, rooms without air conditioning, and systems with high-wattage lighting are most vulnerable. A clip-on fan blowing across the sump surface can drop temperature 1–2 °C through evaporative cooling and is the cheapest first step.</p>
+        </details>
+        <details>
+          <summary>How much daily temperature swing is acceptable in a reef tank?</summary>
+          <p>A swing of 0.5–1 °C between the coolest point (typically early morning before lights on) and the warmest point (end of the photoperiod) is common and generally harmless. Swings of 2 °C or more in a single day are worth reducing by improving heater control, managing room temperature or adjusting the lighting schedule.</p>
+        </details>
+      </section>
+
+      <section class="related">
+        <h2>Keep reading</h2>
+        <div class="related-grid">
+          <a href="/guides/ideal-reef-tank-parameters/">Ideal Reef Tank Water Parameters</a>
+          <a href="/guides/salinity-specific-gravity-reef/">Salinity &amp; Specific Gravity Guide</a>
+          <a href="/guides/apex-ghl-data-export/">Apex &amp; GHL Data Export Guide</a>
+          <a href="/guides/reading-reef-parameter-trends/">Reading Reef Parameter Trends</a>
+        </div>
+      </section>
+    </article>
+  </div>
+
+  <footer class="site-foot">
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="/guides/">All guides</a>
+      <a href="/app/">Free logbook</a>
+      <a href="/legal/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="disclaimer">ReefDeck guides are general educational information for reef-keeping hobbyists, not veterinary or professional advice. Target ranges vary with stock and system; always cross-check against your own livestock and trusted reef references. ReefDeck the app records and displays your own data — it does not diagnose or prescribe.</p>
+  </footer>
+</body>
+</html>

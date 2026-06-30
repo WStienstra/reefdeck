@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ReefDeck — Reef Tank Logbook</title>
+  <meta name="description" content="ReefDeck reef tank logbook — log water parameters, track coral inventory, maintain a dosing journal. All data on your device." />
+  <meta name="robots" content="noindex" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0e4f6e" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ReefDeck" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="app.css" />
+  <script>
+    // Pre-paint theme (avoid flash): read saved pref before CSS applies.
+    try {
+      var p = JSON.parse(localStorage.getItem('reefdeck_prefs') || '{}');
+      document.documentElement.setAttribute('data-theme', p.theme === 'light' ? 'light' : 'dark');
+    } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
+  </script>
+</head>
+<body>
+
+  <!-- APP SHELL -->
+  <div id="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <span class="brand-icon" data-icon="waves" data-icon-size="20"></span>
+        <span class="brand-text">Reef<em>Deck</em></span>
+      </div>
+      <div class="sidebar-tank-switcher">
+        <div class="tank-switcher-label">Active Tank</div>
+        <select class="tank-switcher-select" id="tank-select">
+          <option value="">— no tank —</option>
+        </select>
+        <button class="btn-add-tank" id="btn-add-tank"><span data-icon="plus" data-icon-size="14"></span> Add Tank</button>
+      </div>
+
+      <div class="nav-section-label">Logbook</div>
+      <div class="nav-item active" data-panel="dashboard">
+        <span class="nav-icon" data-icon="dashboard" data-icon-size="19"></span> Dashboard
+      </div>
+      <div class="nav-item" data-panel="today">
+        <span class="nav-icon" data-icon="clock" data-icon-size="19"></span> Today
+      </div>
+      <div class="nav-item" data-panel="log">
+        <span class="nav-icon" data-icon="dropletPlus" data-icon-size="19"></span> Log Parameters
+      </div>
+      <div class="nav-item" data-panel="history">
+        <span class="nav-icon" data-icon="history" data-icon-size="19"></span> History
+      </div>
+      <div class="nav-item" data-panel="icp-import">
+        <span class="nav-icon" data-icon="beaker" data-icon-size="19"></span> ICP Import
+        <span class="nav-pro-tag" data-icon="crown" data-icon-size="12" title="Pro"></span>
+      </div>
+      <div class="nav-item" data-panel="controller-import">
+        <span class="nav-icon" data-icon="chip" data-icon-size="19"></span> Controller Import
+      </div>
+      <div class="nav-item" data-panel="charts">
+        <span class="nav-icon" data-icon="chart" data-icon-size="19"></span> Trend Charts
+      </div>
+
+      <div class="nav-section-label">Care</div>
+      <div class="nav-item" data-panel="schedule">
+        <span class="nav-icon" data-icon="calendar" data-icon-size="19"></span> Maintenance
+      </div>
+      <div class="nav-item" data-panel="calculator">
+        <span class="nav-icon" data-icon="calculator" data-icon-size="19"></span> Dose Calculator
+      </div>
+      <div class="nav-item" data-panel="insights">
+        <span class="nav-icon" data-icon="gauge" data-icon-size="19"></span> Insights
+        <span class="nav-pro-tag" data-icon="crown" data-icon-size="12" title="Pro"></span>
+      </div>
+
+      <div class="nav-section-label">Tank</div>
+      <div class="nav-item" data-panel="inventory">
+        <span class="nav-icon" data-icon="fish" data-icon-size="19"></span> Coral &amp; Livestock
+      </div>
+      <div class="nav-item" data-panel="corals">
+        <span class="nav-icon" data-icon="coral" data-icon-size="19"></span> Coral Growth Tracker
+      </div>
+      <div class="nav-item" data-panel="journal">
+        <span class="nav-icon" data-icon="journal" data-icon-size="19"></span> Journal
+      </div>
+
+      <div class="nav-section-label">Settings</div>
+      <div class="nav-item" data-panel="thresholds">
+        <span class="nav-icon" data-icon="sliders" data-icon-size="19"></span> Thresholds
+      </div>
+      <div class="nav-item" data-panel="settings">
+        <span class="nav-icon" data-icon="sun" data-icon-size="19"></span> Appearance &amp; Reminders
+      </div>
+      <div class="nav-item" data-panel="export">
+        <span class="nav-icon" data-icon="download" data-icon-size="19"></span> Export / Import
+      </div>
+      <div class="nav-item" data-panel="upgrade">
+        <span class="nav-icon" data-icon="crown" data-icon-size="19"></span> ReefDeck Pro
+      </div>
+      <div class="nav-item" data-panel="about">
+        <span class="nav-icon" data-icon="info" data-icon-size="19"></span> About
+      </div>
+
+      <div class="sidebar-footer">
+        <div id="pro-status"><!-- rendered by renderProStatus() --></div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+      <!-- DISCLAIMER BANNER -->
+      <div class="disclaimer-banner" id="disclaimer-banner">
+        <span class="disclaimer-text"><strong>Logbook, not an advisor.</strong> <a href="/legal/disclaimer.html" target="_blank">Full disclaimer</a></span>
+        <button class="disclaimer-dismiss" id="disclaimer-dismiss" aria-label="Dismiss disclaimer" title="Dismiss">&times;</button>
+      </div>
+
+      <!-- TOPBAR -->
+      <div class="topbar">
+        <div style="display:flex;align-items:center;gap:12px">
+          <button class="hamburger-btn" id="hamburger-btn" aria-label="Menu"><span data-icon="menu" data-icon-size="22"></span></button>
+          <span class="topbar-title" id="topbar-title"><span data-icon="dashboard" data-icon-size="20"></span> Dashboard</span>
+        </div>
+        <div class="topbar-right">
+          <button class="btn-icon" onclick="setPanel('log')" title="Log new parameters"><span data-icon="plus" data-icon-size="16"></span> Log</button>
+          <button class="btn-icon" onclick="setPanel('export')" title="Export / Import data"><span data-icon="download" data-icon-size="16"></span></button>
+        </div>
+      </div>
+
+      <!-- PANELS -->
+
+      <div class="panel active" id="panel-dashboard">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-today">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-log">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-history">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-charts">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-schedule">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-calculator">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-insights">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-inventory">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-corals">
+        <!-- Rendered by JS (Coral Growth Tracker — Phase 4) -->
+      </div>
+
+      <div class="panel" id="panel-journal">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-thresholds">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-settings">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-export">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-upgrade">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-icp-import">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="panel" id="panel-controller-import">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- ABOUT PANEL (static) -->
+      <div class="panel" id="panel-about">
+        <div class="card" style="max-width:640px">
+          <div class="card-title"><span data-icon="info" data-icon-size="15"></span> About ReefDeck</div>
+          <h2 style="font-size:1.2rem;margin-bottom:16px;display:flex;align-items:center;gap:9px"><span data-icon="waves" data-icon-size="22" style="color:var(--brand-bright)"></span> The logbook built for serious reefers.</h2>
+          <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;margin-bottom:16px">
+            ReefDeck is a client-side-first reef tank logbook. Your data lives in your browser's localStorage on your device.
+            We do not hold your water chemistry data, and we never will in the free tier.
+          </p>
+          <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;margin-bottom:16px">
+            <strong style="color:var(--text-primary)">Important:</strong> ReefDeck is a logbook — not an aquarium advisor. It records the data you enter and displays it back to you with charts and threshold alerts you configure. ReefDeck does not provide advice, diagnose problems, or recommend actions. All decisions about your tank are yours.
+          </p>
+          <div style="margin-bottom:18px">
+            <button class="btn-inv" onclick="showInstallHelp()" style="font-size:0.85rem"><span data-icon="wifi" data-icon-size="14"></span> Install ReefDeck on this device</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+            <a href="/legal/terms.html" style="color:var(--ocean-light);font-size:0.9rem" target="_blank">Terms of Service</a>
+            <a href="/legal/privacy.html" style="color:var(--ocean-light);font-size:0.9rem" target="_blank">Privacy Policy</a>
+            <a href="/legal/disclaimer.html" style="color:var(--ocean-light);font-size:0.9rem" target="_blank">Full Disclaimer</a>
+          </div>
+          <div style="font-size:0.78rem;color:var(--text-dim)">
+            Version 1.3.0 &nbsp;·&nbsp; &copy; 2026 ReefDeck &nbsp;·&nbsp;
+            <a href="/" style="color:var(--text-dim)" target="_blank">reefdeck.io</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end main-content -->
+  </div><!-- end #app -->
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal" id="modal-body">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- PRINT-ONLY REPORT AREA (filled by printReport, shown only when body.printing) -->
+  <div id="print-area" aria-hidden="true"></div>
+
+  <!-- SCRIPTS -->
+  <script src="icons.js"></script>
+  <script src="coral.js"></script>
+  <script src="charts.js"></script>
+  <script src="forecast.js"></script>
+  <script src="drive.js"></script>
+  <script src="push.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>

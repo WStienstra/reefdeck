@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to ReefDeck Pro</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#07101e" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
+  <style>
+    :root {
+      --ocean-deep: #050b14;
+      --ocean-mid: #0a1828;
+      --brand: #1fb8cc;
+      --brand-bright: #46d6e6;
+      --brand-grad: linear-gradient(135deg, #25c9d6 0%, #2a86e0 100%);
+      --brand-glow: rgba(54,198,224,0.45);
+      --accent-green: #2dd4a7;
+      --accent-yellow: #f6b945;
+      --text-primary: #eaf2fa;
+      --text-muted: #92a9c0;
+      --border: rgba(150,184,214,0.14);
+      --border-strong: rgba(150,184,214,0.24);
+      --radius: 16px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; }
+    body {
+      font-family: var(--font);
+      color: var(--text-primary);
+      background:
+        radial-gradient(1200px 600px at 50% -10%, rgba(31,184,204,0.18), transparent 60%),
+        linear-gradient(180deg, var(--ocean-mid) 0%, var(--ocean-deep) 100%);
+      background-attachment: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 18px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(17, 34, 56, 0.66);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius);
+      padding: 38px 30px 32px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+      backdrop-filter: blur(8px);
+      text-align: center;
+    }
+    .badge {
+      width: 76px; height: 76px; margin: 0 auto 18px;
+      border-radius: 22px;
+      background: var(--brand-grad);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 6px rgba(46,212,167,0.10), 0 12px 30px var(--brand-glow);
+    }
+    .badge svg { width: 40px; height: 40px; stroke: #07101e; fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .eyebrow {
+      text-transform: uppercase; letter-spacing: 2px; font-size: 0.72rem; font-weight: 700;
+      color: var(--accent-green); margin-bottom: 8px;
+    }
+    h1 { font-size: 1.7rem; font-weight: 800; line-height: 1.15; margin-bottom: 10px; }
+    h1 .pro { color: var(--brand-bright); }
+    .lead { color: var(--text-muted); font-size: 0.97rem; line-height: 1.55; margin-bottom: 26px; }
+    .cta {
+      display: inline-flex; align-items: center; gap: 9px;
+      width: 100%; justify-content: center;
+      background: var(--brand-grad); color: #07101e;
+      font-weight: 800; font-size: 1.04rem;
+      border: none; border-radius: 12px;
+      padding: 16px 22px; cursor: pointer; text-decoration: none;
+      box-shadow: 0 10px 28px var(--brand-glow);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .cta:hover { transform: translateY(-1px); box-shadow: 0 14px 34px var(--brand-glow); }
+    .cta svg { width: 19px; height: 19px; stroke: #07101e; fill: none; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+    .keybox {
+      margin: 26px 0 8px;
+      border: 1px dashed var(--border-strong);
+      border-radius: 12px;
+      background: rgba(7,16,30,0.5);
+      padding: 16px 16px 14px;
+      text-align: left;
+    }
+    .keybox .klabel {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.4px;
+      color: var(--text-muted); font-weight: 700; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 7px;
+    }
+    .keybox .klabel svg { width: 14px; height: 14px; stroke: var(--accent-yellow); fill: none; stroke-width: 2.2; }
+    .keyrow { display: flex; gap: 8px; align-items: stretch; }
+    .keyval {
+      flex: 1; font-family: 'Inter', monospace; font-weight: 700; font-size: 1.18rem;
+      letter-spacing: 1.5px; color: var(--brand-bright);
+      background: rgba(0,0,0,0.25); border: 1px solid var(--border);
+      border-radius: 8px; padding: 11px 13px; user-select: all;
+      display: flex; align-items: center; word-break: break-all;
+    }
+    .copybtn {
+      flex: 0 0 auto; background: rgba(70,214,230,0.12); color: var(--brand-bright);
+      border: 1px solid var(--border-strong); border-radius: 8px;
+      padding: 0 15px; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+      transition: background .12s ease;
+    }
+    .copybtn:hover { background: rgba(70,214,230,0.22); }
+    .copybtn.copied { color: var(--accent-green); border-color: var(--accent-green); }
+    .hint {
+      font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;
+      margin-top: 12px; text-align: left;
+    }
+    .hint b { color: var(--text-primary); font-weight: 600; }
+    .foot { margin-top: 24px; font-size: 0.8rem; color: var(--text-muted); }
+    .foot a { color: var(--brand-bright); text-decoration: none; }
+    .receipt { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <div class="badge" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+    </div>
+    <div class="eyebrow">Payment confirmed</div>
+    <h1>You're <span class="pro">ReefDeck Pro</span> 🎉</h1>
+    <p class="lead">
+      Thank you for supporting an indie reef tool. Pro is now unlocked on this device —
+      Insights, Forecast, unlimited tanks and printable reports are all live.
+    </p>
+
+    <a class="cta" id="open-app" href="/app/?upgrade=success">
+      Open ReefDeck Pro
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+
+    <div class="keybox">
+      <div class="klabel">
+        <svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+        Your license key — use Pro on other devices
+      </div>
+      <div class="keyrow">
+        <div class="keyval" id="license-key">REEF-…</div>
+        <button class="copybtn" id="copy-key" type="button">Copy</button>
+      </div>
+      <p class="hint">
+        Pro is already active <b>on this device</b>. To unlock Pro on a phone, tablet or another
+        computer, open ReefDeck there → <b>Upgrade</b> → paste this key. Keep it somewhere safe
+        (it's also in your Stripe receipt email).
+      </p>
+    </div>
+
+    <p class="foot">
+      Questions or a problem? Reply to your receipt email and we'll sort it out.<br>
+      <span class="receipt">A receipt has been emailed to you by Stripe.</span>
+    </p>
+  </main>
+
+  <script>
+    // ReefDeck stores everything client-side under reefdeck_* keys (same origin as /app/,
+    // so localStorage is shared). We grant Pro here directly AND hand off via
+    // /app/?upgrade=success (app.js honours that param), so Pro sticks either way.
+    (function () {
+      'use strict';
+      var PREFS_KEY = 'reefdeck_prefs';
+
+      function todayStr() {
+        var d = new Date();
+        return d.getFullYear() + '-' +
+          String(d.getMonth() + 1).padStart(2, '0') + '-' +
+          String(d.getDate()).padStart(2, '0');
+      }
+
+      // Unambiguous alphabet (no I/O/0/1). Format: REEF-XXXX-XXXX (matches REEF- prefix, len >= 9).
+      function makeKey() {
+        var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        var out = '';
+        var rnd;
+        try {
+          rnd = new Uint8Array(8);
+          (window.crypto || window.msCrypto).getRandomValues(rnd);
+        } catch (e) {
+          rnd = null;
+        }
+        for (var i = 0; i < 8; i++) {
+          var n = rnd ? rnd[i] : Math.floor(Math.random() * 256);
+          out += chars[n % chars.length];
+          if (i === 3) out += '-';
+        }
+        return 'REEF-' + out; // e.g. REEF-7K9M-QP4T
+      }
+
+      // Read existing prefs WITHOUT clobbering theme / dismissed banners / reminders.
+      var prefs = {};
+      try { prefs = JSON.parse(localStorage.getItem(PREFS_KEY)) || {}; } catch (e) { prefs = {}; }
+      if (typeof prefs !== 'object' || prefs === null) prefs = {};
+
+      // Reuse an existing key on revisit so the user never sees a different code twice.
+      var key = (typeof prefs.license === 'string' && prefs.license.indexOf('REEF-') === 0)
+        ? prefs.license
+        : makeKey();
+
+      prefs.pro = true;
+      if (!prefs.proSince) prefs.proSince = todayStr();
+      prefs.license = key;
+      try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) {}
+
+      // Render the key
+      var keyEl = document.getElementById('license-key');
+      if (keyEl) keyEl.textContent = key;
+
+      // Copy button
+      var copyBtn = document.getElementById('copy-key');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', function () {
+          var done = function () {
+            copyBtn.textContent = 'Copied';
+            copyBtn.classList.add('copied');
+            setTimeout(function () { copyBtn.textContent = 'Copy'; copyBtn.classList.remove('copied'); }, 1800);
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(key).then(done, done);
+          } else {
+            var r = document.createRange(); r.selectNode(keyEl);
+            var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+            try { document.execCommand('copy'); } catch (e) {}
+            sel.removeAllRanges(); done();
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" width="1200" height="480" role="img">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a86e0" stop-opacity="0.85"/>
+      <stop offset="0.55" stop-color="#0a1828"/>
+      <stop offset="1" stop-color="#050b14"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.78" cy="0.32" r="0.6">
+      <stop offset="0" stop-color="#2a86e0" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#2a86e0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="480" fill="url(#bg)"/>
+  <rect width="1200" height="480" fill="url(#glow)"/>
+  <g stroke="#ffffff" stroke-opacity="0.14" stroke-width="2" fill="none">
+    <path d="M0 360 C 200 320 360 320 600 360 S 1000 400 1200 360"/>
+    <path d="M0 400 C 220 360 380 360 600 400 S 1000 440 1200 400" stroke-opacity="0.10"/>
+    <path d="M0 320 C 180 286 380 286 600 320 S 1010 354 1200 320" stroke-opacity="0.07"/>
+  </g>
+  <g transform="translate(812 96) scale(13)" stroke="#ffffff" stroke-opacity="0.13" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c2.5-3 5.5-3 8 0s5.5 3 8 0M2 14c2.5-3 5.5-3 8 0s5.5 3 8 0"/></g>
+  <g transform="translate(72 150)">
+    <rect x="0" y="0" width="54" height="6" rx="3" fill="#2a86e0"/>
+    <text x="0" y="44" fill="#ffffff" fill-opacity="0.62" font-family="Inter, sans-serif" font-size="22" font-weight="700" letter-spacing="4">TROUBLESHOOTING</text>
+    <text x="0" y="92" fill="#ffffff" font-family="Georgia, 'Fraunces', serif" font-size="40" font-weight="600">ReefDeck</text>
+    <text x="0" y="128" fill="#ffffff" fill-opacity="0.7" font-family="Georgia, serif" font-size="22" font-style="italic">Reef keeping, made measurable</text>
+  </g>
+</svg>

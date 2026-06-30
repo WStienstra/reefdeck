@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — ReefDeck</title>
+  <link rel="canonical" href="https://reefdeck.io/legal/privacy.html" />
+  <style>
+    :root { --ocean-deep:#0a1628; --ocean-light:#1a7a9e; --text-primary:#f0ede6; --text-muted:#8aacbf; --border:rgba(255,255,255,0.09); --font:'Segoe UI',system-ui,sans-serif; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:var(--font);background:var(--ocean-deep);color:var(--text-primary);line-height:1.7}
+    nav{background:rgba(10,22,40,0.97);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .brand{font-size:1.1rem;font-weight:700;color:var(--text-primary);text-decoration:none}
+    .brand em{font-style:normal;color:var(--ocean-light)}
+    .back{color:var(--text-muted);text-decoration:none;font-size:0.85rem}
+    .back:hover{color:var(--text-primary)}
+    .prose{max-width:700px;margin:0 auto;padding:48px 24px 80px}
+    h1{font-size:1.8rem;font-weight:800;margin-bottom:8px}
+    .date{color:var(--text-muted);font-size:0.82rem;margin-bottom:32px}
+    h2{font-size:1.1rem;font-weight:700;margin:28px 0 10px;color:var(--ocean-light)}
+    p{color:var(--text-muted);margin-bottom:12px;font-size:0.93rem}
+    ul{color:var(--text-muted);padding-left:20px;font-size:0.93rem;margin-bottom:12px}
+    li{margin-bottom:6px}
+    .highlight{background:rgba(45,206,137,0.06);border:1px solid rgba(45,206,137,0.25);border-radius:8px;padding:16px;margin:24px 0}
+    .highlight p{color:var(--text-primary);font-weight:500;margin:0}
+    footer{text-align:center;padding:32px;border-top:1px solid var(--border);color:var(--text-muted);font-size:0.82rem}
+    footer a{color:var(--text-muted);text-decoration:none}
+    a{color:var(--ocean-light)}
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="brand">Reef<em>Deck</em></a>
+    <a href="/" class="back">← Back to ReefDeck</a>
+  </nav>
+  <div class="prose">
+    <h1>Privacy Policy</h1>
+    <p class="date">Effective Date: June 1, 2026 &nbsp;·&nbsp; Last Updated: June 24, 2026</p>
+
+    <div class="highlight">
+      <p>The short version: your tank data never leaves your device in the free tier. We store nothing about your readings, corals, or tank history on any server. The logbook is client-side only.</p>
+    </div>
+
+    <h2>1. Who We Are</h2>
+    <p>ReefDeck ("we," "us," "our") is a reef tank logbook product. Contact: <a href="mailto:hello@reefdeck.io">hello@reefdeck.io</a>.</p>
+
+    <h2>2. What Data We Collect</h2>
+    <p><strong style="color:var(--text-primary)">Logbook data (Free tier):</strong> None. Your tank data — water parameters, coral inventory, journal entries, thresholds — is stored exclusively in your browser's localStorage on your own device. We do not transmit, collect, process, or have access to any of this data.</p>
+    <p><strong style="color:var(--text-primary)">Email address (optional):</strong> If you sign up for the Pro waitlist or newsletter, we collect your email address via a third-party form provider (currently Formspree or ConvertKit). We use this only to notify you about ReefDeck Pro availability and significant product updates. We do not sell or share your email with third parties for marketing purposes.</p>
+    <p><strong style="color:var(--text-primary)">Google Drive backup (future Pro tier):</strong> Pro backup is intentionally decentralised. When you connect Google Drive, your logbook is backed up to <em>your own</em> Google Drive account — not to any ReefDeck server. We do not host a sync backend, never receive a copy of your data, and cannot read your backup. You can revoke ReefDeck's Drive access at any time from your Google account settings. Google's privacy policy governs data stored in your Drive.</p>
+    <p><strong style="color:var(--text-primary)">Closed-app push reminders (optional, Pro):</strong> If you turn on push reminders that work while the app is closed, we store on our server only what's needed to send them: your browser's push subscription (an anonymous endpoint provided by your device's push service), your maintenance <em>task names and due dates</em>, your tank name, and your chosen reminder time and timezone. We do <strong>not</strong> store your water parameters, coral data, journal, or any readings. Turning the feature off deletes this record. Delivery is handled by your platform's push service (Apple, Google, or Mozilla).</p>
+    <p><strong style="color:var(--text-primary)">Stripe checkout (future Pro tier):</strong> If you subscribe to ReefDeck Pro, payment is handled by Stripe, Inc. We receive a customer ID and subscription status from Stripe but never see or store your full payment card number. Stripe's privacy policy governs their data handling.</p>
+    <p><strong style="color:var(--text-primary)">Web analytics (if any):</strong> We may use privacy-respecting, cookieless analytics (such as Plausible or Fathom) that do not track individuals or use cookies. No personal data is collected through analytics. If analytics are active, it will be noted here with the specific service used.</p>
+
+    <h2>3. How Your Browser Stores Data</h2>
+    <p>Your logbook data is stored using the Web Storage API (localStorage) built into your browser. This data:</p>
+    <ul>
+      <li>Is stored on your device only</li>
+      <li>Is accessible only to reefdeck.io pages in your browser</li>
+      <li>Can be cleared by you at any time via the "Delete All My Data" button in the app, or by clearing your browser's site data</li>
+      <li>May be cleared automatically by your browser or operating system (this is why we strongly encourage regular JSON exports)</li>
+      <li>Is not backed up to any cloud by us — in the free tier it stays on your device, and Pro backup goes only to your own Google Drive, never to a ReefDeck server</li>
+    </ul>
+
+    <h2>4. Cookies</h2>
+    <p>ReefDeck does not use tracking cookies or advertising cookies. We may use a strictly necessary session cookie if/when Pro accounts are implemented (for authentication only). No third-party tracking cookies are set by ReefDeck itself.</p>
+
+    <h2>5. Third-Party Services</h2>
+    <p>The following third-party services may be involved when you interact with ReefDeck:</p>
+    <ul>
+      <li><strong>Formspree / ConvertKit</strong> — email form submission. Governs its own privacy practices at their respective privacy pages.</li>
+      <li><strong>Google Drive</strong> — optional Pro backup destination. Your logbook backup is stored in <em>your</em> Google Drive account under your control; ReefDeck never holds a copy. <a href="https://policies.google.com/privacy">Google Privacy Policy</a>.</li>
+      <li><strong>Stripe, Inc.</strong> — payment processing for Pro tier (when launched). <a href="https://stripe.com/privacy">Stripe Privacy Policy</a>.</li>
+      <li><strong>Static hosting provider</strong> (Netlify, Vercel, or similar) — serves the static files. May log standard access logs (IP, user agent, timestamp) for security purposes. These logs are standard web server logs, not used for tracking.</li>
+    </ul>
+    <p>We do not integrate with Google Analytics, Meta Pixel, or any behavioral advertising platforms.</p>
+
+    <h2>6. Children's Privacy</h2>
+    <p>ReefDeck is not directed at children under 13. We do not knowingly collect personal information from children under 13. If you believe a child under 13 has submitted personal data to us, contact us and we will delete it promptly.</p>
+
+    <h2>7. International Users</h2>
+    <p>ReefDeck is operated from the Netherlands. If you are located in the EU/EEA, your rights under the GDPR apply. Because we hold no personal tank data (it lives on your device), the practical scope of GDPR obligations for the logbook itself is minimal. For email subscribers: you can request deletion at any time by emailing us or using the unsubscribe link in any email we send.</p>
+
+    <h2>8. Your Rights</h2>
+    <p>You have the right to:</p>
+    <ul>
+      <li>Access any personal data we hold about you (email address, subscription status)</li>
+      <li>Request deletion of your personal data</li>
+      <li>Withdraw consent for marketing emails at any time</li>
+      <li>Lodge a complaint with a supervisory authority (EU: your national data protection authority)</li>
+    </ul>
+    <p>To exercise any right: <a href="mailto:hello@reefdeck.io">hello@reefdeck.io</a></p>
+
+    <h2>9. Data Breaches</h2>
+    <p>Because we hold no logbook data on our servers, a server breach would not expose your tank records. If a breach of our email list or payment records occurs, we will notify affected users as required by applicable law.</p>
+
+    <h2>10. Changes to This Policy</h2>
+    <p>We may update this privacy policy. Significant changes will be communicated to email subscribers. The effective date at the top reflects the current version.</p>
+
+    <h2>Contact</h2>
+    <p>Questions: <a href="mailto:hello@reefdeck.io">hello@reefdeck.io</a></p>
+  </div>
+  <footer>
+    <a href="/legal/terms.html">Terms of Service</a> &nbsp;·&nbsp; <a href="/legal/disclaimer.html">Disclaimer</a> &nbsp;·&nbsp; <a href="/">ReefDeck Home</a>
+    <br><br>&copy; 2026 ReefDeck
+  </footer>
+</body>
+</html>

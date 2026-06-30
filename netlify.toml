@@ -1,0 +1,15 @@
+# ReefDeck — Netlify config (Git-connected build, enables the push backend).
+# Publish dir is the static site (build/); functions live outside it so their
+# node_modules never get published to the CDN.
+
+[build]
+  publish = "build"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Scheduled function: check every hour, send reminders to users whose chosen
+# notify-hour matches their local time and who have something due.
+[functions."send-reminders"]
+  schedule = "@hourly"
