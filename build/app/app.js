@@ -114,6 +114,7 @@ let state = {
   chartParam: 'alk',
   chartRange: 30,
   chartOverlayParam: null,
+  editingLogId: null,
   ...DB.load(),
 };
 
@@ -197,6 +198,12 @@ function openPhotoLightbox(dataUrl, caption) {
 // day behind for users in positive timezones logging late in the evening.
 function todayStr() {
   const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+// Local calendar date `daysAgo` days back — same local-day rule as todayStr(), for chart-range cutoffs.
+function localCutoffStr(daysAgo) {
+  const d = new Date();
+  d.setDate(d.getDate() - daysAgo);
   return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 }
 function addDays(dateStr, n) {
@@ -460,7 +467,8 @@ function showToast(msg, type = 'success') {
 function fmtDate(d) {
   if (!d) return '';
   try {
-    return new Date(d + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const dt = d.indexOf('T') !== -1 ? new Date(d) : new Date(d + 'T12:00:00');
+    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   } catch(e) { return d; }
 }
 
@@ -475,6 +483,7 @@ function fmtDateTime(d) {
 // NAVIGATION
 // ============================================================
 function setPanel(name) {
+  if (name !== 'log') state.editingLogId = null;
   state.activePanel = name;
   if (name === 'calculator') {
     const prefs = getPrefs();
@@ -529,6 +538,30 @@ function renderTankSwitcher() {
 
 function promptAddTank() {
   openModal('add-tank');
+}
+
+function promptDeleteTank() {
+  const tank = getActiveTank();
+  if (!tank) return;
+  const logCount = state.logs.filter(l => l.tankId === tank.id).length;
+  if (!confirm('Delete tank "' + tank.name + '" and all its logs (' + logCount + '), inventory, corals, journal entries, maintenance tasks and thresholds? This cannot be undone.')) return;
+  state.logs.filter(l => l.tankId === tank.id).forEach(l => deleteLogPhoto(l.id));
+  getCorals().filter(c => c.tankId === tank.id).forEach(c => {
+    (c.growth || []).forEach(e => { if (e.photoId) delete getPhotos()[e.photoId]; });
+    (c.photos || []).forEach(pid => delete getPhotos()[pid]);
+  });
+  state.tanks = state.tanks.filter(t => t.id !== tank.id);
+  state.logs = state.logs.filter(l => l.tankId !== tank.id);
+  state.inventory = state.inventory.filter(i => i.tankId !== tank.id);
+  state.corals = getCorals().filter(c => c.tankId !== tank.id);
+  state.journal = state.journal.filter(j => j.tankId !== tank.id);
+  state.maintenance = state.maintenance.filter(m => m.tankId !== tank.id);
+  delete state.thresholds[tank.id];
+  state.activeTankId = state.tanks.length ? state.tanks[0].id : null;
+  save();
+  renderTankSwitcher();
+  setPanel('dashboard');
+  showToast('Tank "' + tank.name + '" deleted.');
 }
 
 // ============================================================
@@ -979,13 +1012,18 @@ function renderLogForm() {
   const tank = getActiveTank();
   if (!tank) { document.getElementById('panel-log').innerHTML = renderEmptyState('No tank', 'Add a tank first.'); return; }
   const today = todayStr();
+  let editingLog = state.editingLogId ? state.logs.find(l => l.id === state.editingLogId) : null;
+  if (state.editingLogId && !editingLog) state.editingLogId = null;
 
-  const paramFields = DEFAULT_PARAMS.map(p => `
+  const paramFields = DEFAULT_PARAMS.map(p => {
+    const v = editingLog && editingLog.params[p.key] != null ? editingLog.params[p.key] : '';
+    return `
     <div class="form-field">
       <label class="form-label">${p.label} <span style="color:var(--text-dim)">${p.unit}</span></label>
-      <input class="form-input" type="number" id="log-${p.key}" name="${p.key}" placeholder="${p.defaultMin}" step="${p.step}" />
+      <input class="form-input" type="number" id="log-${p.key}" name="${p.key}" placeholder="${p.defaultMin}" step="${p.step}" value="${v}" />
     </div>
-  `).join('');
+  `;
+  }).join('');
 
   const calcNudgeHtml = _qlCalcNudge
     ? `<div class="ql-calc-nudge">${svgIcon('calculator', 13)} Want to calculate a dose based on this ${escHtml(_qlCalcNudge.paramLabel)} reading? <button onclick="setPanel('calculator')" style="background:none;border:none;color:var(--brand-bright);cursor:pointer;text-decoration:underline;font-size:inherit;padding:0">Open Calculator →</button></div>`
@@ -995,17 +1033,17 @@ function renderLogForm() {
     ${renderQuickLogCard(tank)}
     ${calcNudgeHtml}
     <div class="card">
-      <div class="card-title">Full Test Entry — ${escHtml(tank.name)}</div>
-      <p style="color:var(--text-muted);font-size:0.82rem;margin:-4px 0 14px">Entering a whole test at once? Fill the grid below. For a single value, use Quick Log above.</p>
+      <div class="card-title">${editingLog ? 'Editing Log Entry — ' + fmtDate(editingLog.date) : 'Full Test Entry — ' + escHtml(tank.name)}</div>
+      <p style="color:var(--text-muted);font-size:0.82rem;margin:-4px 0 14px">${editingLog ? 'Update the values below and save, or cancel to leave this entry unchanged.' : 'Entering a whole test at once? Fill the grid below. For a single value, use Quick Log above.'}</p>
       <div class="log-form">
         <div class="form-field" style="margin-bottom:16px;max-width:240px">
           <label class="form-label">Date</label>
-          <input class="form-input" type="date" id="log-date" value="${today}" />
+          <input class="form-input" type="date" id="log-date" value="${editingLog ? editingLog.date : today}" />
         </div>
         <div class="form-grid">${paramFields}</div>
         <div class="form-field" style="margin-bottom:16px">
           <label class="form-label">Notes (optional)</label>
-          <textarea class="journal-textarea" id="log-notes" placeholder="Water change, test kit used, anything worth recording..." style="min-height:70px"></textarea>
+          <textarea class="journal-textarea" id="log-notes" placeholder="Water change, test kit used, anything worth recording..." style="min-height:70px">${editingLog ? escHtml(editingLog.notes || '') : ''}</textarea>
         </div>
         <div class="form-field" style="margin-bottom:20px">
           <label class="form-label">Test kit photo (optional)</label>
@@ -1015,7 +1053,8 @@ function renderLogForm() {
           </div>
           <div id="log-photo-preview"></div>
         </div>
-        <button class="btn-primary-sm" onclick="submitLog()" style="padding:12px 32px;font-size:1rem">Save Log Entry</button>
+        <button class="btn-primary-sm" onclick="submitLog()" style="padding:12px 32px;font-size:1rem">${editingLog ? 'Update Log Entry' : 'Save Log Entry'}</button>
+        ${editingLog ? `<button class="btn-modal-cancel" onclick="state.editingLogId=null;renderLogForm()" style="padding:12px 20px;font-size:1rem;margin-left:8px">Cancel Edit</button>` : ''}
       </div>
     </div>
     <div class="card" style="background:var(--surface-2);margin-top:16px">
@@ -1090,15 +1129,38 @@ function submitLog() {
   });
   if (!hasAny) { showToast('Enter at least one parameter value.', 'error'); return; }
   const notes = document.getElementById('log-notes').value.trim();
-  const newLog = { id: uid(), tankId: tank.id, date, params, notes };
-  state.logs.push(newLog);
+  const editId = state.editingLogId;
+  let log = editId
+    ? state.logs.find(l => l.id === editId)
+    : state.logs.find(l => l.tankId === tank.id && l.date === date);
+  if (log) {
+    log.date = date;
+    if (editId) {
+      log.params = params;
+      log.notes = notes;
+    } else {
+      Object.assign(log.params, params);
+      if (notes) log.notes = notes;
+    }
+  } else {
+    log = { id: uid(), tankId: tank.id, date, params, notes };
+    state.logs.push(log);
+  }
   if (_pendingPhotoDataUrl) {
-    saveLogPhoto(newLog.id, _pendingPhotoDataUrl);
+    saveLogPhoto(log.id, _pendingPhotoDataUrl);
     _pendingPhotoDataUrl = null;
   }
+  state.editingLogId = null;
   save();
-  showToast('Log entry saved!');
+  showToast(editId ? 'Log entry updated!' : 'Log entry saved!');
   setPanel('dashboard');
+}
+
+function startEditLog(id) {
+  const log = state.logs.find(l => l.id === id);
+  if (!log) return;
+  state.editingLogId = id;
+  setPanel('log');
 }
 
 // ============================================================
@@ -1136,6 +1198,7 @@ function renderHistory() {
       ${cells}
       <td title="${escHtml(log.notes || '')}" style="color:var(--brand-bright)">${log.notes ? svgIcon('note', 15) : ''}</td>
       ${photoCell}
+      <td><button class="btn-delete-row" onclick="startEditLog('${log.id}')" title="Edit this log entry">${svgIcon('edit', 16)}</button></td>
       <td><button class="btn-delete-row" onclick="deleteLog('${log.id}')" title="Delete this log entry">${svgIcon('trash', 16)}</button></td>
     </tr>`;
   }).join('');
@@ -1150,7 +1213,7 @@ function renderHistory() {
     <div class="scroll-hint">${svgIcon('arrowRight', 13)} Swipe the table sideways to see every parameter</div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Date</th>${headerCells}<th>Notes</th><th>${svgIcon('camera', 14)}</th><th></th></tr></thead>
+        <thead><tr><th>Date</th>${headerCells}<th>Notes</th><th>${svgIcon('camera', 14)}</th><th></th><th></th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>
@@ -1211,7 +1274,7 @@ function chartLogsFor(tankId, paramKey) {
       .sort(function(a,b) { return a.date > b.date ? 1 : -1; })
       .map(function(l) { return { date: l.date, value: l.params[paramKey] }; });
   }
-  const cutoff = new Date(Date.now() - state.chartRange * 86400000).toISOString().slice(0, 10);
+  const cutoff = localCutoffStr(state.chartRange);
   return state.logs
     .filter(function(l) { return l.tankId === tankId && l.date >= cutoff && l.params[paramKey] != null; })
     .sort(function(a,b) { return a.date > b.date ? 1 : -1; })
@@ -1327,7 +1390,7 @@ function renderCharts() {
   const photos = getPhotos();
   const allLogsInRange = state.chartRange === 0
     ? state.logs.filter(l => l.tankId === tank.id)
-    : (() => { const cutoff = new Date(Date.now() - state.chartRange * 86400000).toISOString().slice(0, 10); return state.logs.filter(l => l.tankId === tank.id && l.date >= cutoff); })();
+    : (() => { const cutoff = localCutoffStr(state.chartRange); return state.logs.filter(l => l.tankId === tank.id && l.date >= cutoff); })();
   const chartPhotosMap = {};
   allLogsInRange.forEach(l => { if (photos[l.id]) chartPhotosMap[l.date] = photos[l.id]; });
   const chartPhotoDates = Object.keys(chartPhotosMap);
@@ -2497,6 +2560,7 @@ function confirmWipe() {
   localStorage.removeItem('reefdeck_safeBannerDismissed');
   localStorage.removeItem('reefdeck_photos');
   localStorage.removeItem('reefdeck_pwaInstallDismissed');
+  localStorage.removeItem('reefdeck_disclaimerDismissed');
   showToast('All data deleted. Reloading...');
   setTimeout(() => location.reload(), 1500);
 }
@@ -3034,14 +3098,20 @@ function renderControllerImport() {
 }
 
 // Parse a timestamp cell into YYYY-MM-DD. Returns null if unrecognised.
-function parseCSVDate(dateStr) {
+// european=true parses slash dates as DD/MM/YYYY (GHL ProfiLux); otherwise MM/DD/YYYY (US, e.g. Apex).
+function parseCSVDate(dateStr, european) {
   if (!dateStr) return null;
   // ISO: "2026-06-01" or "2026-06-01 08:00"
   var isoM = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
   if (isoM) return isoM[1] + '-' + isoM[2] + '-' + isoM[3];
-  // US: "06/01/2026"
-  var usM = dateStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-  if (usM) return usM[3] + '-' + String(usM[1]).padStart(2, '0') + '-' + String(usM[2]).padStart(2, '0');
+  // Slash date: "06/01/2026" — US is MM/DD, European (GHL) is DD/MM
+  var slashM = dateStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (slashM) {
+    var month = european ? slashM[2] : slashM[1];
+    var day = european ? slashM[1] : slashM[2];
+    if (Number(month) > 12 && Number(day) <= 12) { var t = month; month = day; day = t; }
+    return slashM[3] + '-' + String(month).padStart(2, '0') + '-' + String(day).padStart(2, '0');
+  }
   return null;
 }
 
@@ -3106,7 +3176,7 @@ function parseControllerCSV(text) {
     var cells = splitLine(line);
 
     var dateCell = dateColIdx !== -1 ? (cells[dateColIdx] || '') : '';
-    var dateStr = parseCSVDate(dateCell.trim());
+    var dateStr = parseCSVDate(dateCell.trim(), useSemi);
     if (!dateStr) continue;
 
     // First reading per date only
@@ -3222,7 +3292,7 @@ function escHtml(s) {
 
 function renderEmptyState(title, msg, modalName, btnFn, extraHtml) {
   const btnHtml = (modalName || btnFn) ? `
-    <button class="btn-primary-sm" onclick="${modalName ? "openModal('" + modalName + "')" : '('+btnFn.toString()+'())'}" style="padding:11px 24px">
+    <button class="btn-primary-sm" onclick="${modalName ? "openModal('" + modalName + "')" : '('+btnFn.toString()+')()'}" style="padding:11px 24px">
       ${svgIcon('plus', 16)} ${modalName === 'add-tank' ? 'Add Tank' : 'Get Started'}
     </button>` : '';
   return `<div class="empty-state"><div class="empty-icon">${svgIcon('fish', 30)}</div><h3>${escHtml(title)}</h3><p>${escHtml(msg)}</p>${btnHtml}${extraHtml || ''}</div>`;
@@ -3771,6 +3841,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Add tank button
   document.getElementById('btn-add-tank').addEventListener('click', promptAddTank);
+  document.getElementById('btn-delete-tank').addEventListener('click', promptDeleteTank);
 
   // Modal overlay close on backdrop
   document.getElementById('modal-overlay').addEventListener('click', function(e) {

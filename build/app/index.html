@@ -40,9 +40,12 @@
       </div>
       <div class="sidebar-tank-switcher">
         <div class="tank-switcher-label">Active Tank</div>
-        <select class="tank-switcher-select" id="tank-select">
-          <option value="">— no tank —</option>
-        </select>
+        <div style="display:flex;gap:6px;align-items:center">
+          <select class="tank-switcher-select" id="tank-select" style="flex:1">
+            <option value="">— no tank —</option>
+          </select>
+          <button class="btn-delete-row" id="btn-delete-tank" title="Delete active tank"><span data-icon="trash" data-icon-size="15"></span></button>
+        </div>
         <button class="btn-add-tank" id="btn-add-tank"><span data-icon="plus" data-icon-size="14"></span> Add Tank</button>
       </div>
 

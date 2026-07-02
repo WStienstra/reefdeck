@@ -71,12 +71,25 @@ export default async () => {
     try {
       await webpush.sendNotification(record.subscription, payload, { TTL: 6 * 3600 });
       record.lastSent = decision.localDate;
+      record.failCount = 0;
       await store.setJSON(b.key, record);
       sent++;
     } catch (err) {
       const code = err && err.statusCode;
-      if (code === 404 || code === 410) { await store.delete(b.key); cleaned++; }
-      else console.error('push send failed', code, err && err.body);
+      if (code === 404 || code === 410) {
+        await store.delete(b.key); cleaned++;
+      } else {
+        // Non-statusCode errors (DNS/connection failures, malformed subscriptions)
+        // never self-report 404/410, so without a cap they'd retry forever. Give
+        // up after ~24 straight hourly failures (about a day) instead.
+        record.failCount = (record.failCount || 0) + 1;
+        if (record.failCount >= 24) {
+          await store.delete(b.key); cleaned++;
+        } else {
+          try { await store.setJSON(b.key, record); } catch (e) { /* best effort */ }
+        }
+        console.error('push send failed', code, err && (err.body || err.message));
+      }
     }
   }
   console.log(`send-reminders: scanned ${scanned}, sent ${sent}, cleaned ${cleaned}`);

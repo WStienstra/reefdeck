@@ -1,0 +1,4 @@
+# Internal deploy/ops doc must never be publicly reachable — it documents where
+# to paste secrets and references the site owner by name. Keep it in the repo
+# for the deploy workflow, but 404 it at the edge.
+/DEPLOY_HANDOFF.md  /  404

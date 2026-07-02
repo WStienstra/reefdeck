@@ -6,14 +6,53 @@ import { createHash } from 'node:crypto';
 
 const keyFor = (endpoint) => createHash('sha256').update(endpoint).digest('hex');
 
-export default async (req) => {
+// Only accept subscription endpoints belonging to real browser push services.
+// Without this, save-push accepts any attacker-chosen https:// URL and
+// send-reminders will happily POST to it on a schedule (SSRF/outbound relay).
+const ALLOWED_PUSH_HOSTS = [
+  /(^|\.)googleapis\.com$/,           // Chrome/Edge/Android (FCM)
+  /(^|\.)push\.services\.mozilla\.com$/, // Firefox
+  /(^|\.)notify\.windows\.com$/,      // Windows/Edge legacy (WNS)
+  /^web\.push\.apple\.com$/,          // Safari
+];
+
+function isAllowedPushEndpoint(endpoint) {
+  let u;
+  try { u = new URL(endpoint); } catch { return false; }
+  if (u.protocol !== 'https:') return false;
+  return ALLOWED_PUSH_HOSTS.some((re) => re.test(u.hostname));
+}
+
+// Cheap per-caller write throttle so the blob store can't be grown unbounded
+// by repeated POSTs with distinct fake-but-allowlisted endpoints.
+const RATE_LIMIT = 20;
+const RATE_WINDOW_MS = 60 * 60 * 1000;
+async function rateLimited(store, ip) {
+  if (!ip) return false; // can't identify caller — the endpoint allowlist is the primary gate
+  const key = 'ratelimit:' + createHash('sha256').update(ip).digest('hex');
+  const now = Date.now();
+  let hits = [];
+  try { hits = (await store.get(key, { type: 'json' })) || []; } catch { hits = []; }
+  hits = hits.filter((t) => now - t < RATE_WINDOW_MS);
+  if (hits.length >= RATE_LIMIT) return true;
+  hits.push(now);
+  await store.setJSON(key, hits);
+  return false;
+}
+
+export default async (req, context) => {
   if (req.method !== 'POST') return new Response('Method not allowed', { status: 405 });
   let body;
   try { body = await req.json(); } catch { return json({ error: 'bad json' }, 400); }
 
   const sub = body && body.subscription;
-  if (!sub || !sub.endpoint || !sub.keys || !sub.keys.p256dh || !sub.keys.auth) {
+  if (!sub || !sub.endpoint || !sub.keys || !sub.keys.p256dh || !sub.keys.auth || !isAllowedPushEndpoint(sub.endpoint)) {
     return json({ error: 'invalid subscription' }, 400);
+  }
+
+  const store = getStore('reefdeck-push');
+  if (await rateLimited(store, context && context.ip)) {
+    return json({ error: 'rate limited' }, 429);
   }
 
   const tasks = Array.isArray(body.tasks) ? body.tasks.slice(0, 100).filter((t) => t && typeof t === 'object').map((t) => ({
@@ -34,7 +73,6 @@ export default async (req) => {
   };
 
   try {
-    const store = getStore('reefdeck-push');
     await store.setJSON(keyFor(sub.endpoint), record);
   } catch (err) {
     console.error('save-push: blob write failed', err && err.message);

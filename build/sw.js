@@ -1,7 +1,7 @@
 // ReefDeck Service Worker — v1.9.0
 // Caches app shell for offline use. User data lives in localStorage/IndexedDB on device only.
 
-const CACHE_NAME = 'reefdeck-v8';
+const CACHE_NAME = 'reefdeck-v9';
 const SHELL_URLS = [
   '/app/',
   '/app/index.html',
@@ -13,13 +13,23 @@ const SHELL_URLS = [
   '/app/coral.js',
   '/app/drive.js',
   '/app/push.js',
-  '/manifest.json'
+  '/manifest.json',
+  '/offline.html'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(SHELL_URLS).catch((err) => {
+      // cache: 'reload' bypasses the browser's HTTP cache so a version bump always
+      // pulls the real new bytes, instead of re-caching a stale entry served by
+      // the ordinary HTTP cache (see BUILD_REPORT.md stale-cache incident).
+      return Promise.all(
+        SHELL_URLS.map((url) =>
+          fetch(url, { cache: 'reload' }).then((response) => {
+            if (response.ok) return cache.put(url, response);
+          })
+        )
+      ).catch((err) => {
         // Non-fatal: app still works online if cache fails during dev
         console.warn('SW cache pre-load partial failure:', err);
       });
@@ -80,16 +90,41 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
+  // Explicit app-shell files: cache-first, refreshed only on a CACHE_NAME bump
+  // (install handler above repopulates them with cache:'reload').
+  if (SHELL_URLS.indexOf(url.pathname) !== -1) {
+    event.respondWith(
+      caches.match(event.request).then((cached) => {
+        if (cached) return cached;
+        return fetch(event.request).then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        });
+      })
+    );
+    return;
+  }
+
+  // Everything else (guides, legal, landing pages, images): network-first so
+  // content edits show up on the next visit, with a cache fallback for offline use.
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-      return fetch(event.request).then((response) => {
+    fetch(event.request)
+      .then((response) => {
         if (response.ok) {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
         }
         return response;
-      });
-    })
+      })
+      .catch(() =>
+        caches.match(event.request).then((cached) => {
+          if (cached) return cached;
+          if (event.request.mode === 'navigate') return caches.match('/offline.html');
+          return Response.error();
+        })
+      )
   );
 });
