@@ -26,7 +26,7 @@ Drag-and-drop alone cannot deploy functions.)
 In Netlify → Site settings → Environment variables, add:
 - `VAPID_PUBLIC`  = `BLIpCo0Xs0rm_wu2gpPqEXtCt6j0PjCa6qA8_YrnyVcg5Rm3I9sgbm9NwvuwAK8EdLXYQLt-dD6bZIcmtbN4ntI`
 - `VAPID_PRIVATE` = (the private key — I sent it to you separately; never commit it)
-- `VAPID_SUBJECT` = `mailto:hello@reefdeck.io`
+- `VAPID_SUBJECT` = `mailto:hello@reefdecks.com`
 The matching public key is already baked into `build/app/push.js`. If you ever rotate
 keys, update both the env var and that file together.
 
@@ -54,9 +54,10 @@ Until you do it, the app shows it as "Coming soon" (no broken buttons). No clien
 7. Re-deploy. The Drive backup buttons go live for Pro users automatically.
    (You can then flip the public "Coming soon" labels to live — ask Patrick, it's a 2-line change.)
 
-### Step 4: (Optional) Formspree waitlist (5 min)
-1. formspree.io → new form → copy the form ID
-2. In `build/index.html`: find `REPLACE_ME` in the form action → replace with your ID
+### Step 4: (Optional) Newsletter signup — currently REMOVED
+The email-capture form was removed because it posted to a placeholder and 404'd on submit.
+To re-enable: create a form at formspree.io (or ConvertKit), then paste the embed/endpoint
+into `build/index.html` where the `<!-- EMAIL CAPTURE / WAITLIST ... -->` comment is.
 
 ### Step 5: Test
 - Visit your Netlify URL, click "Get Pro" → should land on Stripe checkout

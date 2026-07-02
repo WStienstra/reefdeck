@@ -128,7 +128,7 @@ The MVP worked but looked like a generic dark admin template. v1.1 is a full des
 - **Deep-linking** — `/app/#charts` opens directly to a panel.
 - Verified by headless-Chromium screenshots (dashboard, charts, inventory, landing). JS syntax-checked; zero emoji/entity icons remain.
 
-## Brand: ReefDeck (recommended domain: reefdeck.io)
+## Brand: ReefDeck (recommended domain: reefdecks.com)
 
 No trademark conflicts found at build time. Clean, nautical, category-defining. Alternatives from Phase 1: coralvault.com, reeftrak.com, saltlogger.com, coralkeepr.com.
 
@@ -208,7 +208,7 @@ Service worker requires HTTPS or localhost — the python server on localhost is
 ## What Wietse Must Do to Go Live
 
 ### 1. Register a domain (you do this — we can't)
-**Recommended: reefdeck.io** — clean, nautical, memorable.
+**Recommended: reefdecks.com** — clean, nautical, memorable.
 Check at Cloudflare Registrar or Namecheap. ~$15-25/yr. Point DNS to deployment host.
 
 ### 2. Deploy the static site
@@ -255,7 +255,7 @@ Targeting: Facebook/Instagram — "saltwater aquarium," "coral reef hobbyist," "
 ---
 
 ## Open Items / Future Work (Phase 3)
-- [ ] Wietse registers reefdeck.io
+- [ ] Wietse registers reefdecks.com
 - [ ] Deploy to Netlify/Vercel
 - [ ] Plug in Formspree endpoint for waitlist
 - [ ] Run Facebook/Instagram ad test ($500–$1,500, Wietse approves budget)
@@ -280,7 +280,7 @@ Targeting: Facebook/Instagram — "saltwater aquarium," "coral reef hobbyist," "
 - **#2 RLS, #5 OWASP/SQLi, #6 server-side validation, #9 rate limits, #11 non-leaky server errors** — all require the backend/DB. Re-run this checklist the moment the Pro API is scaffolded.
 - **#3 auth failure-path testing** — when auth exists (wrong-pw-5x, double-clicked verify link, signup-on-existing-email).
 - **#8 API keys server-side** — Stripe secret key must NEVER touch the frontend; use a server proxy / Stripe-hosted Checkout. Currently only a public Payment Link is planned (`STRIPE_LINK`), which is safe.
-- **#10 CAPTCHA + CORS** — when the Formspree waitlist form goes live: enable Formspree's built-in spam/reCAPTCHA, lock CORS to reefdeck.io.
+- **#10 CAPTCHA + CORS** — when the Formspree waitlist form goes live: enable Formspree's built-in spam/reCAPTCHA, lock CORS to reefdecks.com.
 
 ### Follow-up to unlock a no-`unsafe-inline` CSP (optional, nice-to-have)
 Refactor the ~30 generated `onclick="setPanel(...)"` (and similar) handlers to event delegation (a single `data-panel` / `data-action` click listener). Then drop `'unsafe-inline'` from `script-src` for a strict CSP. Sizeable but mechanical; not blocking.
@@ -328,3 +328,32 @@ Refactor the ~30 generated `onclick="setPanel(...)"` (and similar) handlers to e
 - `node --check build/app/app.js` → **PASS** (no output)
 - Screenshots: `shots/photov1/` — desktop + portrait for log, dashboard, history, charts panels generated via `shoot.py photov1`. History table camera column visible; code paths confirmed across 18 photo-feature references in app.js.
 - Staged locally only — **not deployed**.
+
+---
+
+## 2026-07-02 — Hero images + full QA sweep + function hardening
+
+**Guide hero images (Magnific/Pikaso):** All 19 guides that lacked a real photo now have
+photoreal 16:9 heroes (generated via Magnific MCP, compressed 2752×1536 PNG → 1600px
+progressive JPEG, 80–350 KB). Wired into guide JSONs (heroImg + ogImage) and rebuilt.
+20th guide (ideal-reef-tank-parameters) keeps the landing hero photo.
+
+**Full QA sweep (static + runtime):**
+- Static: node --check all JS ✓; zero broken hrefs/srcs/manifest/sw/sitemap refs;
+  Stripe link live; fresh users start clean (sample data opt-in only); landing indexable.
+- Runtime (headless Chrome, 28 targets): 0 console errors, 0 exceptions, 0 failed
+  requests across landing/welcome/install/guides/legal + all 18 app panels (fresh + seeded).
+- Full shoot.py pass (44 screenshots, desktop + portrait) → shots/qa-jul2/.
+
+**Fixes applied:**
+- send-reminders.mjs: unguarded blob read/plan() could abort the whole hourly batch on
+  one corrupt record — now per-record try/catch.
+- save-push.mjs / delete-push.mjs: blob-store failures now return clean 503 (was raw 500);
+  per-item null guard on tasks payload.
+- Removed redundant sitemap-guides.xml (stale, namespace typo; sitemap.xml covers all 23 URLs).
+- Legal pages: favicon added.
+- Guides hub: card blurbs no longer truncate mid-word (word-boundary + ellipsis).
+
+**Known remaining (Wietse-side, documented in DEPLOY_HANDOFF.md):**
+- Netlify env vars VAPID_PUBLIC/PRIVATE/SUBJECT (Step 1b) — needed for closed-app push.
+- Google Drive OAuth client ID (Step 3) — Drive backup shows "coming soon" until set.

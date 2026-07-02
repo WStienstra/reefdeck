@@ -16,7 +16,7 @@ export default async (req) => {
     return json({ error: 'invalid subscription' }, 400);
   }
 
-  const tasks = Array.isArray(body.tasks) ? body.tasks.slice(0, 100).map((t) => ({
+  const tasks = Array.isArray(body.tasks) ? body.tasks.slice(0, 100).filter((t) => t && typeof t === 'object').map((t) => ({
     name: String(t.name || '').slice(0, 80),
     nextDue: String(t.nextDue || '').slice(0, 10),       // YYYY-MM-DD
     intervalDays: Number(t.intervalDays) || 0,
@@ -33,8 +33,13 @@ export default async (req) => {
     updatedAt: new Date().toISOString(),
   };
 
-  const store = getStore('reefdeck-push');
-  await store.setJSON(keyFor(sub.endpoint), record);
+  try {
+    const store = getStore('reefdeck-push');
+    await store.setJSON(keyFor(sub.endpoint), record);
+  } catch (err) {
+    console.error('save-push: blob write failed', err && err.message);
+    return json({ error: 'storage unavailable' }, 503);
+  }
   return json({ ok: true });
 };
 

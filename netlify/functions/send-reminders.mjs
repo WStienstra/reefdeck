@@ -43,7 +43,7 @@ function clampHour(h) { h = Math.floor(Number(h)); return (h >= 0 && h <= 23) ? 
 
 // ---- Scheduled entrypoint ----
 export default async () => {
-  const subject = process.env.VAPID_SUBJECT || 'mailto:hello@reefdeck.io';
+  const subject = process.env.VAPID_SUBJECT || 'mailto:hello@reefdecks.com';
   const pub = process.env.VAPID_PUBLIC;
   const priv = process.env.VAPID_PRIVATE;
   if (!pub || !priv) {
@@ -58,10 +58,14 @@ export default async () => {
 
   const { blobs } = await store.list();
   for (const b of blobs) {
-    const record = await store.get(b.key, { type: 'json' });
+    let record;
+    try { record = await store.get(b.key, { type: 'json' }); }
+    catch (err) { console.error('unreadable push record', b.key, err && err.message); continue; }
     if (!record) continue;
     scanned++;
-    const decision = plan(record, now);
+    let decision;
+    try { decision = plan(record, now); }
+    catch (err) { console.error('bad push record', b.key, err && err.message); continue; }
     if (!decision.send) continue;
     const payload = JSON.stringify(buildPayload(decision.due));
     try {

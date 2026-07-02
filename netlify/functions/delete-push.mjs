@@ -11,8 +11,13 @@ export default async (req) => {
   try { body = await req.json(); } catch { return json({ error: 'bad json' }, 400); }
   const endpoint = body && body.endpoint;
   if (!endpoint) return json({ error: 'no endpoint' }, 400);
-  const store = getStore('reefdeck-push');
-  await store.delete(keyFor(endpoint));
+  try {
+    const store = getStore('reefdeck-push');
+    await store.delete(keyFor(endpoint));
+  } catch (err) {
+    console.error('delete-push: blob delete failed', err && err.message);
+    return json({ error: 'storage unavailable' }, 503);
+  }
   return json({ ok: true });
 };
 

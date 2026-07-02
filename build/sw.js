@@ -1,7 +1,7 @@
-// ReefDeck Service Worker — v1.8.0
+// ReefDeck Service Worker — v1.9.0
 // Caches app shell for offline use. User data lives in localStorage/IndexedDB on device only.
 
-const CACHE_NAME = 'reefdeck-v7';
+const CACHE_NAME = 'reefdeck-v8';
 const SHELL_URLS = [
   '/app/',
   '/app/index.html',

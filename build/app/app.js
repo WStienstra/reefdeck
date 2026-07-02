@@ -1,5 +1,5 @@
 /**
- * ReefDeck App — v1.3.0
+ * ReefDeck App — v1.6.0
  * Client-side reef tank logbook. All data stored in localStorage on the user's device.
  * No data is transmitted to any server (free tier).
  *
@@ -437,6 +437,14 @@ function seedDemoData() {
   save();
 }
 
+// Opt-in: load the sample data set from the empty state (explore without committing real data).
+function loadSampleData() {
+  seedDemoData();
+  renderTankSwitcher();
+  setPanel('dashboard');
+  showToast('Sample data loaded — clear it anytime in Export / Import → Delete All My Data.');
+}
+
 // ============================================================
 // UI HELPERS
 // ============================================================
@@ -554,7 +562,7 @@ function renderPanel(name) {
 // ============================================================
 function renderDashboard() {
   const tank = getActiveTank();
-  if (!tank) { document.getElementById('panel-dashboard').innerHTML = renderEmptyState('No tank yet', 'Add your first tank to get started.', 'add-tank'); return; }
+  if (!tank) { document.getElementById('panel-dashboard').innerHTML = renderEmptyState('No tank yet', 'Add your first tank to get started.', 'add-tank', null, '<button class="btn-inv" onclick="loadSampleData()" style="margin-top:12px;font-size:0.83rem">Or load sample data to explore</button>'); return; }
 
   const tankLogs = state.logs.filter(l => l.tankId === tank.id).sort((a,b) => a.date > b.date ? 1 : -1);
   const latest = tankLogs[tankLogs.length - 1];
@@ -702,7 +710,7 @@ function renderDashboard() {
   const safeBannerHtml = safeBannerDismissed ? '' : `
     <div class="safety-banner" id="safety-banner">
       ${svgIcon('lock', 16)}
-      <span class="safety-banner-text">All data stored privately on this device — never sent to any server.
+      <span class="safety-banner-text">Your logbook is stored on this device — your readings never leave it.
         <button onclick="setPanel('export')" style="background:none;border:none;cursor:pointer;padding:0;font-size:inherit">Export anytime</button>
         &nbsp;·&nbsp; <a href="/legal/privacy.html" target="_blank">Privacy policy</a>
       </span>
@@ -866,7 +874,6 @@ function renderQuickLogCard(tank) {
         ${qlHasPhoto ? `<span style="font-size:0.78rem;color:var(--text-muted)">Photo attached ✓</span><span id="ql-photo-thumb-wrap"></span>` : ''}
         <input type="file" id="ql-photo-input" accept="image/*" capture="environment" style="display:none" onchange="qlPhotoSelected(this)">
       </div>
-      <div style="margin-top:6px"><span class="photo-ocr-chip">${svgIcon('zap', 12)}&nbsp;Auto-read from photo (Pro — coming soon)</span></div>
     </div>`;
 }
 
@@ -1007,7 +1014,6 @@ function renderLogForm() {
             <input type="file" id="log-photo-input" accept="image/*" capture="environment" style="display:none" onchange="logFormPhotoSelected(this)">
           </div>
           <div id="log-photo-preview"></div>
-          <div style="margin-top:6px"><span class="photo-ocr-chip">${svgIcon('zap', 12)}&nbsp;Auto-read from photo (Pro — coming soon)</span></div>
         </div>
         <button class="btn-primary-sm" onclick="submitLog()" style="padding:12px 32px;font-size:1rem">Save Log Entry</button>
       </div>
@@ -3214,12 +3220,12 @@ function escHtml(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-function renderEmptyState(title, msg, modalName, btnFn) {
+function renderEmptyState(title, msg, modalName, btnFn, extraHtml) {
   const btnHtml = (modalName || btnFn) ? `
     <button class="btn-primary-sm" onclick="${modalName ? "openModal('" + modalName + "')" : '('+btnFn.toString()+'())'}" style="padding:11px 24px">
       ${svgIcon('plus', 16)} ${modalName === 'add-tank' ? 'Add Tank' : 'Get Started'}
     </button>` : '';
-  return `<div class="empty-state"><div class="empty-icon">${svgIcon('fish', 30)}</div><h3>${escHtml(title)}</h3><p>${escHtml(msg)}</p>${btnHtml}</div>`;
+  return `<div class="empty-state"><div class="empty-icon">${svgIcon('fish', 30)}</div><h3>${escHtml(title)}</h3><p>${escHtml(msg)}</p>${btnHtml}${extraHtml || ''}</div>`;
 }
 
 // ============================================================
@@ -3731,8 +3737,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // Apply saved theme (dark default) before first paint of content
   applyTheme(getPrefs().theme);
 
-  // Seed demo data on first run
-  seedDemoData();
+  // New users start CLEAN — no auto-seeded demo data. They can optionally load
+  // sample data from the empty dashboard ("load sample data to explore").
 
   // Set active tank
   if (!state.activeTankId && state.tanks.length > 0) {

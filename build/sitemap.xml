@@ -3,7 +3,6 @@
   <url><loc>https://reefdecks.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://reefdecks.com/app/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://reefdecks.com/guides/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://reefdecks.com/install/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://reefdecks.com/guides/ideal-reef-tank-parameters/</loc><lastmod>2026-06-30</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://reefdecks.com/guides/how-often-test-reef-tank/</loc><lastmod>2026-06-30</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://reefdecks.com/guides/reef-parameter-log-spreadsheet-vs-app/</loc><lastmod>2026-06-30</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
